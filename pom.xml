@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.goui.flogger</groupId>
+    <artifactId>flogger-examples</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger -->
+        <dependency>
+            <groupId>com.google.flogger</groupId>
+            <artifactId>flogger</artifactId>
+            <version>0.7.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger-system-backend -->
+        <dependency>
+            <groupId>com.google.flogger</groupId>
+            <artifactId>flogger-system-backend</artifactId>
+            <version>0.7.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger-log4j2-backend -->
+        <dependency>
+            <groupId>com.google.flogger</groupId>
+            <artifactId>flogger-log4j2-backend</artifactId>
+            <version>0.7.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger-grpc-context -->
+        <dependency>
+            <groupId>com.google.flogger</groupId>
+            <artifactId>flogger-grpc-context</artifactId>
+            <version>0.7.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.grpc/grpc-context -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-context</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+    </dependencies>
+</project>
