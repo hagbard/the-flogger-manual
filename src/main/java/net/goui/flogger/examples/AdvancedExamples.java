@@ -16,7 +16,7 @@ import java.util.logging.Level;
  * -Dflogger.backend_factory=com.google.common.flogger.backend.system.SimpleBackendFactory
  * }</pre>
  */
-public class MetadataExamples {
+public class AdvancedExamples {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static void main(String[] args) {
@@ -148,7 +148,7 @@ public class MetadataExamples {
     // -------------------------------------------------------------------------------------------
     ScopedLoggingContexts.newContext()
         .withMetadata(SINGLE_LABEL, "context")
-        .run(MetadataExamples::subTaskWithLogging);
+        .run(AdvancedExamples::subTaskWithLogging);
 
     // This could also be a static constant.
     LogLevelMap fineLogging = LogLevelMap.create(Level.FINE);
@@ -167,6 +167,6 @@ public class MetadataExamples {
     ScopedLoggingContexts.newContext()
         .withLogLevelMap(fineLogging)
         .withMetadata(CUSTOM_LABEL, "foo")
-        .run(MetadataExamples::subTaskWithLogging);
+        .run(AdvancedExamples::subTaskWithLogging);
   }
 }
