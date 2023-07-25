@@ -10,9 +10,12 @@
 
 package net.goui.flogger.examples;
 
+import static com.google.common.flogger.context.ScopeType.REQUEST;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.common.flogger.MetadataKey;
 import com.google.common.flogger.context.LogLevelMap;
+import com.google.common.flogger.context.ScopedLoggingContext;
 import com.google.common.flogger.context.ScopedLoggingContexts;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -33,6 +36,7 @@ public class AdvancedExamples {
     SharedLogLevel.parse(args.length > 0 ? args[0] : "INFO").apply();
     metadataExample();
     metadataWithContextExample();
+    logAggregationExample();
   }
 
   /**
@@ -178,5 +182,47 @@ public class AdvancedExamples {
         .withLogLevelMap(fineLogging)
         .withMetadata(CUSTOM_LABEL, "foo")
         .run(AdvancedExamples::subTaskWithLogging);
+  }
+
+  private enum Mood {
+    HAPPY,
+    SAD
+  }
+
+  private static void logAggregationExample() {
+    // Aggregate stateful logging using distinct enum values. Without adding "per(mood)" to the
+    // log statement, there would be no logging for the "SAD" case.
+    // -------------------------------------------------------------------------------------------
+    // 17:39:29.166 [main] INFO  net.goui.flogger.examples.AdvancedExamples
+    //     I'm feeling: HAPPY [CONTEXT ratelimit_count=50 group_by="HAPPY" ]
+    // 17:39:29.170 [main] INFO  net.goui.flogger.examples.AdvancedExamples
+    //     I'm feeling: SAD [CONTEXT ratelimit_count=50 group_by="SAD" ]
+    // 17:39:29.173 [main] INFO  net.goui.flogger.examples.AdvancedExamples
+    //     I'm feeling: HAPPY [CONTEXT ratelimit_count=50 group_by="HAPPY" ]
+    // -------------------------------------------------------------------------------------------
+    for (int n = 0; n < 100; n++) {
+      // 90% of the time we are "HAPPY", and 10% we are "SAD".
+      Mood mood = n % 10 != 5 ? Mood.HAPPY : Mood.SAD;
+      logger.atInfo().every(50).per(mood).log("I'm feeling: %s", mood);
+    }
+
+    // Using the REQUEST scope type, each request logs independently for rate limiting and other
+    // stateful logging. Without this, logs for task "Bar" would not have appeared.
+    // -------------------------------------------------------------------------------------------
+    // 18:41:20.399 [main] INFO  net.goui.flogger.examples.AdvancedExamples
+    //     Task: Foo [CONTEXT ratelimit_count=30 group_by="request" ]
+    // 18:41:20.402 [main] INFO  net.goui.flogger.examples.AdvancedExamples
+    //     Task: Foo [CONTEXT ratelimit_count=30 group_by="request" ]
+    // 18:41:20.403 [main] INFO  net.goui.flogger.examples.AdvancedExamples
+    //     Task: Bar [CONTEXT ratelimit_count=30 group_by="request" ]
+    // -------------------------------------------------------------------------------------------
+    ScopedLoggingContext.getInstance().newContext(REQUEST).run(() -> doSubTask("Foo", 40));
+    ScopedLoggingContext.getInstance().newContext(REQUEST).run(() -> doSubTask("Bar", 5));
+  }
+
+  private static void doSubTask(String taskId, int iterations) {
+    for (int n = 0; n < iterations; n++) {
+      logger.atInfo().every(30).per(REQUEST).log("Task: %s", taskId);
+    }
   }
 }
