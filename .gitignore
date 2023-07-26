@@ -1,3 +1,14 @@
+# Jekyll and other generated guff.
+.idea/
+.jekyll-cache/
+_site/
+
+# Built Java (Maven)
+target/
+
+# IntelliJ config.
+*.iml
+
 # Compiled class file
 *.class
 
@@ -6,9 +17,6 @@
 
 # BlueJ files
 *.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
 
 # Package Files #
 *.jar
