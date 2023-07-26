@@ -5,13 +5,11 @@
 layout: home
 ---
 
-# The Flogger Manual
-
 How to use Flogger effectively to improve debugging and code maintainability.
 
 ---
 
-### About This Manual
+## About This Manual
 
 This manual will explain how to use Flogger to its full potential, as well as shed light on some of
 the decisions that went into designing the API.
@@ -29,7 +27,7 @@ increasing complexity, with more advanced topics building on earlier concepts.
 
 ---
 
-### About The Author
+## About The Author
 
 David Beaumont started Flogger as a one-person 20% project in Google in 2012. It is now the only
 supported Java debug logging API in Google and serves the needs of hundreds of projects across
