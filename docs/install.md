@@ -1,3 +1,9 @@
+---
+layout: page
+title: Installing Flogger
+permalink: /install/
+---
+
 ## Maven Dependencies
 
 The easiest way to try out Flogger is to install the code in this project and run the various
@@ -89,6 +95,6 @@ try (var ctx = ScopedLoggingContexts.newContext().withTags(Tags.of("foo", true))
 ```
 <!-- @formatter:on -->
 
-See the [Advanced Usage](Advanced-Usage.md) page for more information on scoped contexts and how to use them to improve debugging.
+See the [Advanced Usage](advanced.md) page for more information on scoped contexts and how to use them to improve debugging.
 
 ## Choosing Your Backend

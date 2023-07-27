@@ -1,3 +1,9 @@
+---
+layout: page
+title: Advanced Usage
+permalink: /advanced/
+---
+
 For working code examples for advanced usage, see [AdvancedExamples.java].
 
 ## Metadata, Contexts and Scopes
