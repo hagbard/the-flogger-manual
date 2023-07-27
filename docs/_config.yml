@@ -29,9 +29,14 @@ github_username:  hagbard
 
 # Build settings
 markdown: kramdown
-theme: minima
-# plugins:
-#   - jekyll-feed
+theme: just-the-docs
+
+plugins:
+  - jekyll-default-layout
+
+aux_links:
+  Flogger Repository: https://github.com/google/flogger
+  Example Code: https://github.com/hagbard/the-flogger-manual/tree/main/src/main/java/net/goui/flogger/examples
 
 # Exclude from processing.
 # The following items will not be processed, by default.
