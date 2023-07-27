@@ -1,3 +1,9 @@
+---
+layout: page
+title: Basic Usage
+permalink: /basic/
+---
+
 For working code examples for basic usage, see
 [BasicExamples.java](https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/BasicExamples.java).
 
@@ -96,7 +102,7 @@ test with a "forcing context", you can ensure that log statements will always be
 
 This is good for testing, but can also be good when using contexts to enable additional logging
 (e.g. when debugging a specific request or sub-task) since it allows you to reliably emit every log
-statement encountered in a specific context. See [Advanced Usage](Advanced-Usage.md) for more
+statement encountered in a specific context. See [Advanced Usage](advanced.md) for more
 information.
 
 ### Design Notes
@@ -115,7 +121,7 @@ its rate limit period. There are several reasons for this:
    to `atMostEvery(2, MINUTES)`).
 4. The use of a value-and-unit parameter pair often makes log statements more human-readable (i.e.
    "at most every two minutes"), and helps make it immediately clear as to what the log statement
-   will do. See [API Design Choices](Background.md#api-design-choices) for more on Flogger's
+   will do. See [API Design Choices](background.md#api-design-choices) for more on Flogger's
    design principles.
 
 > **Note**

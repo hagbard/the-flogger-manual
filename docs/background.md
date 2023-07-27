@@ -1,3 +1,9 @@
+---
+layout: page
+title: Background
+permalink: /background/
+---
+
 ## Motivation and History
 
 Debug logging APIs are, at first glance, simple looking beasts. A user has a debug message which
