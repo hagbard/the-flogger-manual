@@ -31,8 +31,8 @@ github_username:  hagbard
 markdown: kramdown
 theme: just-the-docs
 
-plugins:
-  - jekyll-default-layout
+#plugins:
+#  - jekyll-default-layout
 
 aux_links:
   Flogger Repository: https://github.com/google/flogger
