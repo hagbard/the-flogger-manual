@@ -38,8 +38,10 @@ aux_links:
   Flogger Repository: https://github.com/google/flogger
   Example Code: https://github.com/hagbard/the-flogger-manual/tree/main/src/main/java/net/goui/flogger/examples
 
+color_scheme: dark
+
 # Copied from https://github.com/just-the-docs/just-the-docs/blob/main/_config.yml
-callouts_level: quiet # or loud (for dark theme)
+callouts_level: loud # quiet or loud (for dark theme)
 callouts:
   highlight:
     color: yellow
