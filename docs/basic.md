@@ -33,8 +33,9 @@ logger.atInfo().log("Hello %s World", variable);
 ```
 <!-- @formatter:on -->
 
-> **Note**
-> The format syntax for `FluentLogger` is 100% compatible with Java's "printf" syntax.
+{: .note }
+> The format syntax for `FluentLogger` is 100% compatible with Java's "printf" syntax, but other
+> placeholder syntax is possible in custom loggers.
 
 Additionally, if you have a printf format message and argument array, you can call the
 `logVarargs()` method to format this directly. These API decisions are discussed in depth in
@@ -83,9 +84,10 @@ The difference between these methods can be summarized as follows:
 In all cases the number of log statements "skipped" since the previously emitted log message is
 tracked and added as metadata to each log statement.
 
-> **Warning**
+{: .important }
 > It is possible to combine multiple types of rate-limiting into a single log statement, and while
-> the behaviour is well-defined, it's not very intuitive. As such it's not recommended.
+> the behaviour is well-defined, it's not very intuitive and rarely useful. As such it's not 
+> recommended.
 
 ### When To Use Rate Limiting
 
@@ -134,8 +136,8 @@ its rate limit period. There are several reasons for this:
    will do. See [API Design Choices](background.md#api-design-choices) for more on Flogger's
    design principles.
 
-> **Note**
-> It's not impossible that a `Duration` based method could be added in the future, and this would
+{: .note }
+> It's quite possible that a `Duration` based method could be added in the future, and this would
 > help in the rare cases where a variable rate limit period is needed. However, even if such a
 > method existed, for most normal usage where the rate limit period is constant, the existing API
 > would still be strongly recommended.
@@ -213,18 +215,16 @@ logger.atFine().log("Expensive data: %s", lazy(() -> doExpensiveCalculation()));
 This wraps a `Runnable` or lambda into an instance of `LazyArg`, which can then be evaluated only
 when logging will definitely occur.
 
-**Pros:**
+{: .pros }
+> 1. It's concise and keeps everything in a single log statement.
+> 2. It avoids mismatched log levels in guarded blocks.
+> 3. **It works correctly for rate limited log statements** (because it is part of the log statement).
 
-1. It's concise and keeps everything in a single log statement.
-2. It avoids mismatched log levels in guarded blocks.
-3. **It works correctly for rate limited log statements** (because it is part of the log statement).
-
-**Cons:**
-
-1. It may (depending on the contents of the lambda) cause a small, short-lived allocation to be
-   made (e.g. if local variables need to be captured).
-2. If two or more pieces of logged data depend on each other, it may be impractical to evaluate them
-   independently using `lazy()`.
+{: .cons }
+> 1. It may (depending on the contents of the lambda) cause a small, short-lived allocation to be
+>    made (e.g. if local variables need to be captured).
+> 2. If two or more pieces of logged data depend on each other, it may be impractical to evaluate them
+>    independently using `lazy()`.
 
 While `lazy()` can cause small allocations to be made, it is better integrated with features like
 rate limiting, and will generally produce simpler and more maintainable code. In all but the

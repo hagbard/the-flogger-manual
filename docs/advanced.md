@@ -138,7 +138,7 @@ targeted debugging within a single execution of a task. Combined with the abilit
 per-invocation identifier via metadata, this lets you easily control logging to suit your
 debugging needs.
 
-> **Note**
+{: .important }
 > When a log statement if forced, it bypasses all rate limiting and sampling thresholds,
 > ensuring that every log statement encountered is emitted. This even applies to log
 > statements which would have been emitted normally anyway.
