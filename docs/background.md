@@ -42,7 +42,7 @@ The challenges for debug logging are no longer limited to locally run applicatio
 single machine. If debug logging is to remain a useful tool for developers, it needs to evolve to
 address this new world.
 
-> **Note**
+{: .note }
 > SLF4J introduced a "Flogger like" fluent API in version 2.0. This was directly inspired by
 > Flogger's API (and while this is un-acknowledged by the developers, it is
 > [obvious from the discussion and similarities in naming](https://github.com/qos-ch/slf4j/discussions/280)).
@@ -131,6 +131,7 @@ logger implementation, which either prevents easy code refactoring or discourage
 logging at all, but if loggers are created only in the class they are used in, it means they must
 have a low memory footprint per instance.
 
+{: .highlight }
 > Loggers should be thought of as "part of the environment" rather than "part of a system's API".
 
 Flogger also had to be performant in terms of speed and low memory allocations, since you could
@@ -151,6 +152,7 @@ allowed to cause more problems, and you cannot assume the user is able to recomp
 
 **However, one of the most compelling design requirements for any logging API is simplicity.**
 
+{: .highlight }
 > Almost nobody ever comes to their code in order to write great log statements.
 
 Log statements are not part of the business logic of the code they are in, they are mostly disabled
@@ -162,6 +164,7 @@ However, when logging is needed (e.g. during debugging) log output and the log s
 produced them must be reliable and easy to reason about. A user must be able to understand, at a
 glance, what a log statement will do and under what conditions they expect to see output.
 
+{: .highlight }
 > A user in the middle of debugging a serious issue should never also have to reason about some
 > subtle behaviour from their logging API.
 
@@ -190,7 +193,7 @@ loggers between classes is discouraged
 There's also no way to get a "name" for a logger as a user, it's just not a concept you should care
 about in code which is doing logging.
 
-> **Note**
+{: .highlight }
 > While the "name" of a logger is often the name of the class using it, that's not required for
 > Flogger, and a Flogger backend could even supply exactly the same logger for every call to
 > `forEnclosingClass()`, if configured to do so. The only thing you know is that the logger you've
@@ -208,7 +211,7 @@ For Flogger's fluent API, the basic construction is of the form:
 The `level-selector` (e.g. `atInfo()`) always comes first because that's where the logger can return
 a "no-op" instance of the API when logging is disabled by level.
 
-> **Note**
+{: .highlight }
 > Flogger's level selector methods are all prefixed with "at", rather than just
 > being `info()`, `warning()` etc. This serves two purposes; it makes the variable level selector
 > method `at(Level)` more discoverable, and it groups the levels together at the start of any API

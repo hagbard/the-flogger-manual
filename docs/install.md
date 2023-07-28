@@ -44,7 +44,7 @@ This dependency will provide the logging API for use in libraries, application a
 ```
 <!-- @formatter:on -->
 
-> **Note**
+{: .note }
 > At the time of writing, the latest Flogger version is `0.7.4`.
 
 Adding these dependencies will install the core library and system backend, allowing you to write
