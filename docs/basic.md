@@ -2,7 +2,17 @@
 layout: page
 title: Basic Usage
 permalink: /basic/
+nav_order: 20
 ---
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
 
 For working code examples for basic usage, see
 [BasicExamples.java](https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/BasicExamples.java).
