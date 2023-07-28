@@ -76,14 +76,14 @@ try/catch blocks or when explicit lifecycle management is needed.
 The best way to attach metadata to a context, is to do so when the context is built:
 
 ```java
-ScopedLoggingContexts.newContext().withMetadata(TASK_KEY,value).run(mySubTask(...));
+ScopedLoggingContexts.newContext().withMetadata(TASK_KEY, value).run(mySubTask(...));
 ```
 
 If the metadata you wish to add consists of no more than a simple key/value pair which you
 simply wish to appear in log statements, you can also use the `Tags` mechanism to achieve this.
 
 ```java
-ScopedLoggingContexts.newContext().withTags(Tags.of("label","value")).run(mySubTask(...));
+ScopedLoggingContexts.newContext().withTags(Tags.of("label", "value")).run(mySubTask(...));
 ```
 
 The `Tag` mechanism records all the unique key-value pairs with which a context was tagged. It
@@ -113,7 +113,7 @@ existing context. Consider a simple callback object for some managed task lifecy
   @Override
   public void start(Runnable task) {
     // Installs the context in the current thread.
-    this.context=ScopedLoggingContexts.newContext().withMetadata(TASK_KEY,value).install();
+    this.context=ScopedLoggingContexts.newContext().withMetadata(TASK_KEY, value).install();
     super.start(task);
   }
 
