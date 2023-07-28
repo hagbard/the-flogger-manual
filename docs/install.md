@@ -2,7 +2,17 @@
 layout: page
 title: Installing Flogger
 permalink: /install/
+nav_order: 10
 ---
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
 
 ## Maven Dependencies
 
@@ -98,3 +108,4 @@ try (var ctx = ScopedLoggingContexts.newContext().withTags(Tags.of("foo", true))
 See the [Advanced Usage](advanced.md) page for more information on scoped contexts and how to use them to improve debugging.
 
 ## Choosing Your Backend
+](https://hagbard.github.io/the-flogger-manual/)
