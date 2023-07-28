@@ -248,7 +248,7 @@ the methods such that the final fluent log statement reads as naturally as possi
 suggest a natural order to methods, but the implementation must not care in which order methods were
 called.
 
-> **Warning**
+{: .warning }
 > Of course this design is regrettably English-centric, and may not be as clear to users in all
 > languages, so it's also important that the interactions are clearly documented.
 
