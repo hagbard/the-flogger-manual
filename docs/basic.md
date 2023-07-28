@@ -14,10 +14,9 @@ nav_order: 20
 {:toc}
 </details>
 
-For working code examples for basic usage, see
-[BasicExamples.java](https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/BasicExamples.java).
+For working code examples for basic usage, see [BasicExamples.java].
 
-## Hello World
+## Hello World {#hello-world}
 
 The simplest use of Flogger's API is to log a formatted message, at a specified log level.
 
@@ -53,7 +52,7 @@ logger.atInfo().withCause(exception).log("Bad things happened!");
 ```
 <!-- @formatter:on -->
 
-## Rate Limiting
+## Rate Limiting {#rate-limiting}
 
 One of the most common built-in features in Flogger are the various rate-limiting methods. These
 allow users to easily apply efficient rate limiting to log statements without the need for
@@ -89,7 +88,7 @@ tracked and added as metadata to each log statement.
 > the behaviour is well-defined, it's not very intuitive and rarely useful. As such it's not 
 > recommended.
 
-### When To Use Rate Limiting
+### When To Use Rate Limiting {#when-to-use-rate-limiting}
 
 Flogger makes adding rate limited log statements easy, but that does not mean you should use this
 everywhere. If a log statement produces excessive output, it should be treated like a bug in the
@@ -102,10 +101,11 @@ Rate limiting should be reserved for things which must be seen (typically "warni
 for which the rate of logging is highly variable (e.g. in a web server which can be subject to
 bursts activity).
 
-In system which produce a lot of logs, Flogger has other mechanism for managing log statements which
-are often better than simple rate limiting.
+{: .note }
+> In system which produce a lot of logs, Flogger has other mechanism for managing log statements 
+> which are often better than simple rate limiting.
 
-### Bypassing Rate Limiting
+### Bypassing Rate Limiting {#bypassing-rate-limiting}
 
 One question which often arises when using rate limiting, is how to test rate limited log
 statements. To make this easy, Flogger provides a way to "force" logging to occur in specific
@@ -114,10 +114,10 @@ test with a "forcing context", you can ensure that log statements will always be
 
 This is good for testing, but can also be good when using contexts to enable additional logging
 (e.g. when debugging a specific request or sub-task) since it allows you to reliably emit every log
-statement encountered in a specific context. See [Advanced Usage](advanced.md) for more
+statement encountered in a specific context. See [Advanced Usage](../advanced) for more
 information.
 
-### Design Notes
+### Design Notes {#design-notes}
 
 It is tempting to ask why the `atMostEvery(int, TimeUnit)` does not use a `Duration` to represent
 its rate limit period. There are several reasons for this:
@@ -133,7 +133,7 @@ its rate limit period. There are several reasons for this:
    to `atMostEvery(2, MINUTES)`).
 4. The use of a value-and-unit parameter pair often makes log statements more human-readable (i.e.
    "at most every two minutes"), and helps make it immediately clear as to what the log statement
-   will do. See [API Design Choices](background.md#api-design-choices) for more on Flogger's
+   will do. See [API Design Choices](../background#api-design-choices) for more on Flogger's
    design principles.
 
 {: .note }
@@ -142,7 +142,7 @@ its rate limit period. There are several reasons for this:
 > method existed, for most normal usage where the rate limit period is constant, the existing API
 > would still be strongly recommended.
 
-## Adding Stack Information
+## Adding Stack Information {#adding-stack-information}
 
 Another fairly common use case discovered when Flogger was being developed, was that of adding stack
 information to a log statement to provide better context. In other logging APIs this is typically
@@ -176,7 +176,7 @@ logger.atWarning().withStackTrace(MEDIUM).log("Bad things: %s", value);
 ```
 <!-- @formatter:on -->
 
-## Enabled Log Statements and Lazy Evaluation
+## Enabled Log Statements and Lazy Evaluation {#enabled-log-statements-and-lazy-evaluation}
 
 Most logging APIs provide some way to test whether a specific log statement would be emitted. This
 is useful for guarding debug sections and avoiding calculating expensive values to be logged which
@@ -229,3 +229,5 @@ when logging will definitely occur.
 While `lazy()` can cause small allocations to be made, it is better integrated with features like
 rate limiting, and will generally produce simpler and more maintainable code. In all but the
 tightest inner loops or most complex cases, you should generally prefer using `lazy()`.
+
+[BasicExamples.java]: https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/BasicExamples.java

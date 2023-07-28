@@ -16,13 +16,13 @@ nav_order: 30
 
 For working code examples for advanced usage, see [AdvancedExamples.java].
 
-## Metadata, Contexts and Scopes
+## Metadata, Contexts and Scopes {#metadata-contexts-and-scopes}
 
 Apart from basic logging and rate limiting, Flogger provides several advanced mechanisms for
 improving the value of log statements. While each of these has some value on its own, it is
 when they are used together that they have the most impact.
 
-### Simple Metadata
+### Simple Metadata {#simple-metadata}
 
 The first mechanism is `Metadata`, which provides a way to pass structured data to the backend. This
 allows for additional context to be passed to log statements, which can be emitted as part of the
@@ -42,7 +42,7 @@ combined with a metadata aware backend, it's a very powerful mechanism.
 The [associated example code][AdvancedExamples.java] has some useful examples of defining and
 using metadata.
 
-### Logging Contexts
+### Logging Contexts {#logging-contexts}
 
 On its own, supplying metadata to a log statement at the log site is somewhat useful, but it still
 leaves the user needing to augment many log statements and doesn't fix the problem of how to add
@@ -71,7 +71,7 @@ ScopedLoggingContexts.newContext().run(mySubTask(...));
 Other methods allow you to easily return values or create contexts explicitly for use with
 try/catch blocks or when explicit lifecycle management is needed.
 
-### Scoped Metadata and Tags
+### Scoped Metadata and Tags {#scoped-metadata-and-tags}
 
 The best way to attach metadata to a context, is to do so when the context is built:
 
@@ -103,7 +103,7 @@ tags, and it is possible to have the tags `{"flag" => [false, true]}`. While thi
 at first, it guarantees there's never any risk of confusion if two bits of code accidentally use
 the same label for their tags, since all tags are preserved.
 
-### Explicit Lifecycle Control
+### Explicit Lifecycle Control {#explicit-lifecycle-control}
 
 In cases where tasks are conditionally modified after creation, you can also modify an
 existing context. Consider a simple callback object for some managed task lifecycle:
@@ -130,7 +130,7 @@ existing context. Consider a simple callback object for some managed task lifecy
 ```
 <!-- @formatter:on -->
 
-### Log Level Control
+### Log Level Control {#log-level-control}
 
 Contexts are also able to control the log level for logging, including "forcing" additional log
 statements to be emitted. This is a very powerful debugging technique since it permits the
@@ -169,7 +169,7 @@ debugging needs.
 ```
 <!-- @formatter:on -->
 
-## Log Aggregation
+## Log Aggregation {#log-aggregation}
 
 Now you've had an introduction to metadata and contexts, it's time to introduce the next
 mechanism to help improve your debug logs.
@@ -178,7 +178,7 @@ Log aggregation allows stateful log statements (e.g. those with rate limiting or
 log-site state) to be aggregated according to a given "aggregation key". This technique only
 works for stateful log statements however, and otherwise has no effect.
 
-### Common Use Cases
+### Common Use Cases {#common-use-cases}
 
 The commonest example of log aggregation is using the `per(...)` method in Flogger's fluent API to
 specify different rate limiting for different enum values.
@@ -210,7 +210,7 @@ logger.atWarning()
 This ensures that rate limiting is applied separately for each value of `requestTypeEnum` and
 ensures each distinct type that's logged will appear.
 
-### Scope Providers and Per Request Logging
+### Per Request Log Aggregation {#per-request-log-aggregation}
 
 By extending this concept to use contexts and metadata however, we can make it even more useful.
 A `LoggingScopeProvider` is an API from which new scopes can be created, and which can be attached
@@ -246,7 +246,7 @@ With well-defined, project specific scopes, this mechanism can help aggregate st
 on a per-context basis and ensure that rate limited log statements are properly represented for
 separate tasks.
 
-## Custom Metadata Keys
+## Custom Metadata Keys {#custom-metadata-keys}
 
 For simple use cases, `MetadataKey`s are created using the static factory methods in the class. 
 With this can can create "single valued" or "repeated" keys to associate metadata values with.
@@ -264,7 +264,7 @@ A few use cases of this might be:
 3. Having a procedural `MetadataKey<Boolean>` which  looks up some current system status value
    (e.g. remaining heap memory). This can then be called as just `with(SHOW_GC_STATUS)`.
 
-## Caveats and Limitations
+## Caveats and Limitations {#caveats-and-limitations}
 
 While using metadata and context can be a powerful tool for improving the value of debug logs,
 there are a few minor caveats to bear in mind.
@@ -297,7 +297,7 @@ there are a few minor caveats to bear in mind.
    might change over time (e.g. system memory status) it would be strongly advised to cache values 
    with a minimum refresh interval to avoid "thrashing" when log rates are high.
 
-## Grpc Context Propagation
+## Grpc Context Propagation {#gprc-context-propagation}
 
 As mentioned above, logging contexts are based on the Google `gRPC context` library. This library
 is part of the broader `gRPC` framework and provides the underlying mechanism for propagating
@@ -311,7 +311,7 @@ The [gRPC Context API](https://grpc.github.io/grpc-java/javadoc/io/grpc/Context.
 use and lets you easily wrap `Runnable`s, `Callable`s and `Executor`s to propagate contexts
 properly.
 
-> **Note**
+{: .note }
 > While the `gRPC context` mechanism can be used in isolation, there are also a lot of potential
 > benefits in using the general `gRPC` mechanism in your projects.
 

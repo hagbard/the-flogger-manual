@@ -105,7 +105,7 @@ try (var ctx = ScopedLoggingContexts.newContext().withTags(Tags.of("foo", true))
 ```
 <!-- @formatter:on -->
 
-See the [Advanced Usage](advanced.md) page for more information on scoped contexts and how to use them to improve debugging.
+See [Advanced Usage](../advanced#logging-contexts) for more information on scoped contexts
+and how to use them to improve debugging.
 
 ## Choosing Your Backend
-](https://hagbard.github.io/the-flogger-manual/)

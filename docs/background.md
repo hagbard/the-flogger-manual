@@ -14,7 +14,7 @@ nav_order: 100
 {:toc}
 </details>
 
-## Motivation and History
+## Motivation and History {#motivation-and-history}
 
 Debug logging APIs are, at first glance, simple looking beasts. A user has a debug message which
 they wish to log at some point in the code, often with runtime parameters. There's also usually a
@@ -48,7 +48,7 @@ address this new world.
 > [obvious from the discussion and similarities in naming](https://github.com/qos-ch/slf4j/discussions/280)).
 > Flogger's Fluent API was designed nearly 10 years before SLF4J adopted it.
 
-### Why Was Flogger Created?
+### Why Was Flogger Created? {#why-was-flogger-created}
 
 There was never a project started with the aim of making a single, unified logger for Java at
 Google. Flogger began much more humbly as an API experiment with the aim of finding an intuitive API
@@ -60,7 +60,10 @@ API to be extended with new functionality. This turned out to be extremely benef
 allowed Flogger to be extended to support the use cases of many teams, and avoid any need for
 "wrapper" APIs to be created.
 
-### Benefits of a Unified Logging API
+Once it became clear that Flogger's API offered real benefits over the existing collection of 
+logging APIs used in Google, it was decided to proceed with the project. 
+
+### Benefits of a Unified Logging API {#benefits-of-a-unified-logging-api}
 
 In a large and complex code base (such as exists in Google) it is inevitable that, without
 intervention, multiple logging APIs will exist. As new code is added to the repository it might use
@@ -105,7 +108,7 @@ The benefits of having a unified Java logging API across Google's codebase gave 
 5. Static lint checks can be written to cover the entire codebase.
 6. Only one security audit is required for logging across all projects.
 
-### Summary
+### Summary {#summary}
 
 Overall migrating to use Flogger for Java debug logging in Google was definitely the right choice.
 The advantages of having a single, flexible, API across many hundreds of projects outweighed the
@@ -116,7 +119,7 @@ and I don't want anyone reading this to think I am suggesting that migrating all
 Flogger would definitely be worth. Your code base has its own complexities and requirements and if
 you decide to work towards having a single logging API, you need to decide what's best for you.
 
-## API Design Choices
+## API Design Choices {#api-design-choices}
 
 Logging APIs are different to a lot of other APIs in terms of use and expectation, and their design
 is affected by many intersecting requirements.
@@ -171,7 +174,7 @@ glance, what a log statement will do and under what conditions they expect to se
 These principles of simplicity and readability informed the bulk of the API design for Flogger, and
 even seemingly unimportant choices can often be tracked back to one or more of the above ideas.
 
-### Instantiating Loggers
+### Instantiating Loggers {#instantiating-loggers}
 
 One example of where a seemingly simple design choice was informed by lot of subtle reasoning, was
 how Flogger logger instances were created:
@@ -199,7 +202,7 @@ about in code which is doing logging.
 > `forEnclosingClass()`, if configured to do so. The only thing you know is that the logger you've
 > got is right for the class it's being used in.
 
-### Fluent API Choices
+### Fluent API Choices {#fluent-api-choices}
 
 While a lot of this is discussed in [Anatomy of an API](https://google.github.io/flogger/anatomy),
 it is probably worth reiterating a few key points here.
@@ -270,7 +273,7 @@ logger.atWarning().per(REQUEST).atMostEvery(50, MILLISECONDS).log(...);
 
 but both examples must behave identically.
 
-### Platform and Initialization
+### Platform and Initialization {#platform-and-initialization}
 
 Another area in which Flogger, and other logging APIs, have interesting requirements is
 configuration and initialization. Unlike most libraries, logging libraries must be usable at any
