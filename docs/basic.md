@@ -150,7 +150,8 @@ carried out using a manually created `Exception` of some sort at the log site. F
 
 <!-- @formatter:off -->
 ```java
-logger.warning(new RuntimeException(), "Bad things: {}", value);
+// Creating the stack trace of an exception can be expensive.
+logger.warning(new RuntimeException(), "Bad things: {}", message);
 ```
 <!-- @formatter:on -->
 
@@ -167,12 +168,13 @@ Flogger solves this issue by adding the `withStackTrace()` method. The advantage
 1. Stack information is not conflated with a `Throwable` added using `withCause()`.
 2. Stack size can be selected as `SMALL`, `MEDIUM`, `LARGE` or `FULL` (with `NONE` to provide a
    no-op argument).
-3. It works efficiently with rate limiting (stack analysis only occurs for log statements which will
-   definitely be emitted.
+3. It works efficiently with rate limiting and expensive stack analysis only occurs for log 
+   statements which will definitely be emitted.
 
 <!-- @formatter:off -->
 ```java
-logger.atWarning().withStackTrace(MEDIUM).log("Bad things: %s", value);
+// Stack analysis is only carried out for enabled log statements.
+logger.atWarning().atMostEvery(30, SECONDS).withStackTrace(MEDIUM).log("Bad things: %s", message);
 ```
 <!-- @formatter:on -->
 
@@ -215,6 +217,7 @@ logger.atFine().log("Expensive data: %s", lazy(() -> doExpensiveCalculation()));
 This wraps a `Runnable` or lambda into an instance of `LazyArg`, which can then be evaluated only
 when logging will definitely occur.
 
+<!-- @formatter:off -->
 {: .pros }
 > 1. It's concise and keeps everything in a single log statement.
 > 2. It avoids mismatched log levels in guarded blocks.
@@ -222,12 +225,35 @@ when logging will definitely occur.
 
 {: .cons }
 > 1. It may (depending on the contents of the lambda) cause a small, short-lived allocation to be
->    made (e.g. if local variables need to be captured).
-> 2. If two or more pieces of logged data depend on each other, it may be impractical to evaluate them
->    independently using `lazy()`.
+     made (e.g. if local variables need to be captured).
+> 2. If two or more pieces of logged data depend on each other, it may be impractical to evaluate
+     them independently using `lazy()`.
+<!-- @formatter:on -->
 
 While `lazy()` can cause small allocations to be made, it is better integrated with features like
 rate limiting, and will generally produce simpler and more maintainable code. In all but the
 tightest inner loops or most complex cases, you should generally prefer using `lazy()`.
+
+## Lazy Logger Instantiation {#lazy-logger-instantiation}
+
+Occasionally it's desirable to use a logger within an interface's static or default methods, or
+delay logger instantiation until first use (the latter case can be useful for code used by Flogger).
+
+If you need to delay logger instantiation until first use, use a static "lazy holder" class:
+
+```java
+import com.google.common.flogger.FluentLogger;
+
+public interface Foo {
+   static Foo load(Path path) {
+      Lazy.logger.atFine().log("loading Foo from path: %s", path);
+      // ...
+   }
+   
+   private /* static */ class Lazy {
+      private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+   }
+}
+```
 
 [BasicExamples.java]: https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/BasicExamples.java
