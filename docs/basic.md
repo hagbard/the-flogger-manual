@@ -18,33 +18,36 @@ For working code examples for basic usage, see [BasicExamples.java].
 
 ## Hello World {#hello-world}
 
-The simplest use of Flogger's API is to log a formatted message, at a specified log level.
+The simplest use of [Flogger's API]({{site.javadoc}}/LoggingApi.html) is to log a literal message,
+at a specified log level.
 
 <!-- @formatter:off -->
 ```java
 logger.atInfo().log("Hello World");
 ```
 
-Or, with a formatted argument:
+Or, with a printf formatted message and argument:
 
 ```java
-logger.atInfo().log("Hello %s World", variable);
+logger.atInfo().log("Hello %s World", argument);
 ```
 <!-- @formatter:on -->
 
 {: .note }
-> The format syntax for `FluentLogger` is 100% compatible with Java's "printf" syntax, but other
-> placeholder syntax is possible in custom loggers.
+> The format syntax for [`FluentLogger`]({{site.javadoc}}/FluentLogger.html) is 100% compatible
+> with Java's "printf" syntax, but other placeholder syntax is possible in custom loggers.
 
 Additionally, if you have a printf format message and argument array, you can call the
-`logVarargs()` method to format this directly. These API decisions are discussed in depth in
+[`logVarargs()`]({{site.javadoc}}/LoggingApi.html#logVarargs(java.lang.String,java.lang.Object%5B%5D))
+method to format this directly. These API decisions are discussed in depth in
 [Anatomy of an API](https://google.github.io/flogger/anatomy).
 
 As well as supplying a formatted message, almost all Java logging APIs allow a "cause" (`Throwable`
 instance) to be associated with a log statement.
 
-With Flogger this is achieved via the `withCause()` method and is the first example of a fluent
-method in the API:
+With Flogger this is achieved via the
+[`withCause()`]({{site.javadoc}}/LoggingApi.html#withCause(java.lang.Throwable)) method and is
+the first example of a fluent method in the API:
 
 <!-- @formatter:off -->
 ```java
@@ -57,8 +60,10 @@ logger.atInfo().withCause(exception).log("Bad things happened!");
 One of the most common built-in features in Flogger are the various rate-limiting methods. These
 allow users to easily apply efficient rate limiting to log statements without the need for
 additional dependencies or helper objects. Simply specify the rate limit via one of the
-`atMostEvery()`, `every()` or `onAverageEvery()` methods to apply rate limiting independently to
-each log statement.
+[`atMostEvery()`]({{site.javadoc}}/LoggingApi.html#atMostEvery(int,java.util.concurrent.TimeUnit)),
+[`every()`]({{site.javadoc}}/LoggingApi.html#every(int)) or
+[`onAverageEvery()`]({{site.javadoc}}/LoggingApi.html#onAverageEvery(int))
+methods to apply rate limiting independently to each log statement.
 
 For example:
 
@@ -163,7 +168,9 @@ There are several downsides to this approach:
    additional context.
 3. The exception will capture the entire stack, which can be very verbose in log output.
 
-Flogger solves this issue by adding the `withStackTrace()` method. The advantages of this are:
+Flogger solves this issue by adding the
+[`withStackTrace()`]({{site.javadoc}}/LoggingApi.html#withStackTrace(com.google.common.flogger.StackSize))
+method. The advantages of this are:
 
 1. Stack information is not conflated with a `Throwable` added using `withCause()`.
 2. Stack size can be selected as `SMALL`, `MEDIUM`, `LARGE` or `FULL` (with `NONE` to provide a
@@ -184,7 +191,8 @@ Most logging APIs provide some way to test whether a specific log statement woul
 is useful for guarding debug sections and avoiding calculating expensive values to be logged which
 are never used.
 
-Flogger supports this concept via the `isEnabled()` method.
+Flogger supports this concept via the [`isEnabled()`]({{site.javadoc}}/LoggingApi.html#isEnabled())
+method.
 
 <!-- @formatter:off -->
 ```java
@@ -203,7 +211,8 @@ less readable and risk causing issues:
 2. If the guard-level and the log level can get out-of-sync, resulting in log statements being
    erroneously skipped.
 
-Flogger provides a second, simpler way to defer calculation of logged arguments; the `lazy()`
+Flogger provides a second, simpler way to defer calculation of logged arguments; the
+[`lazy()`]({{site.javadoc}}/LazyArgs.html#lazy(com.google.common.flogger.LazyArg))
 method.
 
 <!-- @formatter:off -->
@@ -214,8 +223,8 @@ logger.atFine().log("Expensive data: %s", lazy(() -> doExpensiveCalculation()));
 ```
 <!-- @formatter:on -->
 
-This wraps a `Runnable` or lambda into an instance of `LazyArg`, which can then be evaluated only
-when logging will definitely occur.
+This wraps a `Runnable` or lambda into an instance of [`LazyArg`]({{site.javadoc}}/LazyArg.html),
+which can then be evaluated only when logging will definitely occur.
 
 <!-- @formatter:off -->
 {: .pros }

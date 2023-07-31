@@ -64,6 +64,8 @@ callouts:
     title: Cons
     color: red
 
+javadoc: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
