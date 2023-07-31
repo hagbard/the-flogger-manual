@@ -24,20 +24,24 @@ when they are used together that they have the most impact.
 
 ### Simple Metadata {#simple-metadata}
 
-The first mechanism is `Metadata`, which provides a way to pass structured data to the backend. This
-allows for additional context to be passed to log statements, which can be emitted as part of the
-log output or used to control behaviour in a compatible logger backend.
+The first mechanism is [`Metadata`]({{site.javadoc}}/backend/Metadata.html), which provides a way to
+pass structured data to the backend. This allows for additional context to be passed to log
+statements, which can be emitted as part of the log output or used to control behaviour in a
+compatible logger backend.
 
-To add your own metadata to a log statement, call `with(key, value)` as part of your log statement.
+To add your own metadata to a log statement, call
+[`with(key, value)`]({{site.javadoc}}/LoggingApi.html#with(com.google.common.flogger.MetadataKey,T))
+as part of your log statement. Each metadata value is associated with a strongly typed
+[`MetadataKey`]({{site.javadoc}}/MetadataKey.html) instance, and the keys unambiguously 
+identify the metadata to logger backends. Keys which are not known to a logger backend should
+generally be emitted as part of the log statement (this is the default behaviour for an unknown
+key).
 
-Each metadata value is associated with a strongly typed `MetadataKey` instance, and the keys
-unambiguously identify the metadata to logger backends. Keys which are not known to a logger
-backend should generally be emitted as part of the log statement (this is the default behaviour for
-an unknown key).
-
-In fact, you've already seen `Metadata` at work, it's used for methods such as `withCause()` and
-`withStackTrace()`, as well as any rate limiting. However, there are many more uses for it and when
-combined with a metadata aware backend, it's a very powerful mechanism.
+In fact, you've already seen `Metadata` at work, it's used for methods such as
+[`withCause()`]({{site.javadoc}}/LoggingApi.html#withCause(java.lang.Throwable)) and
+[`withStackTrace()`]({{site.javadoc}}/LoggingApi.html#withStackTrace(com.google.common.flogger.StackSize)),
+as well as any rate limiting. However, there are many more uses for it and when combined with a
+metadata aware backend, it's a very powerful mechanism.
 
 The [associated example code][AdvancedExamples.java] has some useful examples of defining and
 using metadata.
@@ -48,9 +52,10 @@ On its own, supplying metadata to a log statement at the log site is somewhat us
 leaves the user needing to augment many log statements and doesn't fix the problem of how to add
 context to log statements in code you don't own.
 
-To address this, Flogger provides the `ScopedLoggingContext` mechanism, which allows a block of
-code to be surrounded with a scope, which propagates metadata and other information to every log
-statement in the scope.
+To address this, Flogger provides the
+[`ScopedLoggingContext`]({{site.javadoc}}/context/ScopedLoggingContext.html) mechanism, which allows
+a block of code to be surrounded with a scope, which propagates metadata and other information to
+every log statement in the scope.
 
 The logger context mechanism is based on Google's `gRPC` context library. Building logging contexts
 on top of an existing context mechanism allows existing code using that library to seamlessly
@@ -62,7 +67,7 @@ metadata for all the contexts they are in. For situations where order matters, c
 ordered from outermost to innermost and any metadata added at the log-site is "last".
 
 To run a task with a new logging context, use the static factory methods in
-`ScopedLoggingContexts`:
+[`ScopedLoggingContexts`]({{site.javadoc}}/context/ScopedLoggingContexts.html):
 
 ```java
 ScopedLoggingContexts.newContext().run(mySubTask(...));
@@ -86,9 +91,9 @@ simply wish to appear in log statements, you can also use the `Tags` mechanism t
 ScopedLoggingContexts.newContext().withTags(Tags.of("label", "value")).run(mySubTask(...));
 ```
 
-The `Tag` mechanism records all the unique key-value pairs with which a context was tagged. It
-does not permit rewriting existing values and does not preserve the order in which tags were
-applied.
+The [`Tags`]({{site.javadoc}}/context/Tags.html) mechanism records all the unique key-value
+pairs with which a context was tagged. It does not permit rewriting existing values and does not
+preserve the order in which tags were applied.
 
 Using tags is easier than creating metadata keys, but it's less structured and only intended for
 modifying log statements rather than modifying logging behavior.
@@ -180,8 +185,9 @@ works for stateful log statements however, and otherwise has no effect.
 
 ### Common Use Cases {#common-use-cases}
 
-The commonest example of log aggregation is using the `per(...)` method in Flogger's fluent API to
-specify different rate limiting for different enum values.
+The commonest example of log aggregation is using the
+[`per(Enum)`]({{site.javadoc}}/LoggingApi.html#per(java.lang.Enum)) method in Flogger's fluent
+API to specify different rate limiting for different enum values.
 
 Consider a log statement which is attempting to record warnings for some request:
 
@@ -213,9 +219,10 @@ ensures each distinct type that's logged will appear.
 ### Per Request Log Aggregation {#per-request-log-aggregation}
 
 By extending this concept to use contexts and metadata however, we can make it even more useful.
-A `LoggingScopeProvider` is an API from which new scopes can be created, and which can be attached
-to contexts via a `ScopeType` instance. The most common `ScopeType` is `ScopeType.REQUEST`, but
-other values can be created as needed.
+A [`ScopeType`]({{site.javadoc}}/context/ScopeType.html) is an API from which new scopes can be 
+created, and which can be attached to contexts. The most common scope type is
+[`ScopeType.REQUEST`]({{site.javadoc}}/context/ScopeType.html#REQUEST), but other values can be
+created as needed.
 
 To bind a `ScopeType` instance to a context, simply pass it to the context builder:
 
@@ -248,40 +255,46 @@ separate tasks.
 
 ## Custom Metadata Keys {#custom-metadata-keys}
 
-For simple use cases, `MetadataKey`s are created using the static factory methods in the class. 
-With this can can create "single valued" or "repeated" keys to associate metadata values with.
+For simple use cases, instances of [`MetadataKey`]({{site.javadoc}}/MetadataKey.html) are created
+using the static factory methods in the class. You can create "single valued" or "repeated" keys 
+associate metadata values with.
 
-However, you can also subclass `MetadataKey` and override one of its `emit` methods, which gives 
-you access to the collected metadata values for that key and lets you process them to determine
-which values should actually be emitted.
+However, you can also subclass `MetadataKey` and override either its
+[`emit(...)`]({{site.javadoc}}/MetadataKey.html#emit(T,com.google.common.flogger.MetadataKey.KeyValueHandler))
+or
+[`emitRepeated(...)`]({{site.javadoc}}/MetadataKey.html#emitRepeated(java.util.Iterator,com.google.common.flogger.MetadataKey.KeyValueHandler)) 
+methods, which gives you access to the collected metadata value(s) for that key and lets you 
+process them to determine what should actually be emitted.
 
-A few use cases of this might be:
+A few examples of use cases for this might be:
 
 1. Collecting repeated metadata and joining values into a single path-like result (e.g. 
    "foo/baz/baz").
 2. Using metadata values as system property names, and looking up the value to the return via 
    `System.getProperty()`.
 3. Having a procedural `MetadataKey<Boolean>` which  looks up some current system status value
-   (e.g. remaining heap memory). This can then be called as just `with(SHOW_GC_STATUS)`.
+   (e.g. remaining heap memory). This can then be called as just
+   [`with(SHOW_GC_STATUS)`]({{site.javadoc}}/LoggingApi.html#with(com.google.common.flogger.MetadataKey)).
 
 ## Caveats and Limitations {#caveats-and-limitations}
 
-While using metadata and context can be a powerful tool for improving the value of debug logs,
+While using metadata and contexts can be a powerful tool for improving the value of debug logs,
 there are a few minor caveats to bear in mind.
 
 1. Contexts must be strictly nested. This is enforced when using the `run()` or `call()` style
    methods, but can be violated when managing the lifecycle of a context explicitly, and failing
    to manage a context's lifecycle properly will result in undefined behavior.
 
-2. Using a `LogLevelMap` to "force" additional logging in a context has a small overhead for all
-   log statements, even those not directly affected. It should not cause additional memory
-   allocations, but might be worth avoiding in the tightest inner loops.
+2. Using a [`LogLevelMap`]({{site.javadoc}}/context/LogLevelMap.html) to "force" additional
+   logging in a context has a small overhead for all log statements, even those not directly 
+   affected. It should not cause additional memory allocations, but might be worth avoiding in 
+   the tightest inner loops.
 
-3. The use of `ScopeType` with log aggregation creates an implicit contract between the code
-   creating the context and the code doing the logging (both must agree on which value to use).
-   This is fine when that code is in the same project, but using `per(<scope-type>)` in a shared
-   library requires that the specific type used is advertised to users of the library, so they
-   can create contexts using it.
+3. Using [`ScopeType`]({{site.javadoc}}/context/ScopeType.html) with log aggregation creates an
+   implicit contract between the code creating the context and the code doing the logging (both 
+   must agree on which value to use). This is fine when that code is in the same project, but 
+   using `per(<scope-type>)` in a shared library requires that the specific type used is 
+   advertised to users of the library, so they can create contexts using it.
 
 4. When using the `per()` method which takes a `LogPerBucketingStrategy`, it is important to avoid
    using a strategy which produces a lot of unique results. For each unique value passed to the
@@ -290,12 +303,13 @@ there are a few minor caveats to bear in mind.
    have only a well bounded finite set of values. A bucketing strategy which allows an unbounded
    number of values to be used will create a slow, but unbounded, memory leak.
 
-5. When using custom `MetadataKey`s, care must be taken to ensure that any work done during the
-   `emit` method is efficient, and never locks any user objects. For example, in the case of 
-   looking up system property names (see above), it would be very good practice to cache resolved
-   property values in a `ConcurrentMap` of some kind to avoid repeated look-ups. For values which
-   might change over time (e.g. system memory status) it would be strongly advised to cache values 
-   with a minimum refresh interval to avoid "thrashing" when log rates are high.
+5. When subclassing [`MetadataKey`]({{site.javadoc}}/MetadataKey.html), care must be taken to 
+   ensure that any work done during the `emit()` or `emitRepeated()` method is efficient, and never 
+   locks any user objects. For example, in the case of looking up system property names (see 
+   above), it would be very good practice to cache resolved property values in a `ConcurrentMap` 
+   of some kind to avoid repeated look-ups. For values which might change over time (e.g. system 
+   memory status) it would be strongly advised to cache values with a minimum refresh interval 
+   to avoid "thrashing" when log rates are high.
 
 ## Grpc Context Propagation {#gprc-context-propagation}
 
