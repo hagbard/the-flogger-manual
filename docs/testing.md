@@ -43,7 +43,7 @@ An all too familiar story...
 
 Or to put it another way:
 
-{: .note title=}
+{: .note}
 > "*When you are up to your ass in alligators, it's hard to remember that you started
 > out to drain the swamp*" -- Robert Anton Wilson
 
@@ -74,10 +74,10 @@ facing some serious issues.
 > output.
 
 But on the flip side of this, fine-grained logging is potentially very valuable, and when done
-properly it can help you identify issues quickly. Flogger supports `ScopedLoggingContext`s,
-`LogLevelMap`s and `Metadata` to let you control logging within "temporal scopes" (single
+properly it can help you identify issues quickly. Flogger supports `ScopedLoggingContext`,
+`LogLevelMap` and `Metadata` to let you control logging within "temporal scopes" (single
 requests or sub-tasks), which gives you much more freedom to enable additional logging only
-where you need it.
+where you need it without overburdening your system.
 
 But with this new freedom to enable highly targeted debug logs, it becomes more important that
 the code doing the logging is well tested. Tests need to exercise code with and without debug
@@ -125,46 +125,79 @@ all the fine logs that might appear (in normal use fine logs would not even be c
 <!-- @formatter:off -->
 ```java
 @Test
-public void testSuccessfulTask_noWarningLogs() {
+public void testSuccessfulTask_infoLogs() {
   // In normal execution, no warning logs occur.
   logs.verify(assertLogs -> assertLogs.withLevel(WARNING).doNotOccur());
 
   // On success we see a sequence of INFO logs summarizing normal operation.
-  ClassUnderTest.doTestTask(goodRequest);
+  var result = ClassUnderTest.doTestTask(goodRequest);
+  assertThat(result.status()).isEqualTo(Task.SUCCESS);
+  // Now do the usual testing of "info" logs for a successful operation...
+  ...
+}
+
+@Test
+@SetLogLevel(scope = CLASS_UNDER_TEST, level = FINEST)
+public void testSuccessfulTask_enableAllLogs() {
+  // Assert that the task completed as expected with all logging enabled. Knowing that all logging
+  // code can be enabled without causing more problems is very valuable.
+  var result = ClassUnderTest.doTestTask(goodRequest);
+  assertThat(result.status()).isEqualTo(Task.SUCCESS);
+
+  // Extract the subset of debug logs we care about testing (we tested "info" logs above).
+  var debugLogs = assertLogs.withLevelLessThen(INFO);
+  // Without checking the details, assert that an expected number of logs occurred.
+  debugLogs.matchCount().isAtLeast(30);
+  // Perhaps also test a specific logs policy (e.g. not using "fine" logs to report exceptions).
+  debugLogs.never().haveCause();
   ...
 }
 ```
 
-And now an additional test, which runs the same code but triggers a failure. Now we use the
-`SetLogLevel` annotation to trigger additional "FINE" logging, for which testing is much more 
-valuable:
+And now an additional test, which runs the same code but triggers a failure:
 
 <!-- @formatter:off -->
 ```java
 @Test
-@SetLogLevel(scope = CLASS_UNDER_TEST, level = FINEST)
+@SetLogLevel(scope = CLASS_UNDER_TEST, level = FINE)
 public void testFailedTask_debugLogs() {
   // On failure we see an initial warning followed by numerous FINE log statements, which we expect
-  // to all have the correct task ID attached (along with other things).
+  // to all have the correct task ID attached (among other things).
   ClassUnderTest.doTestTask(badRequest);
 
   var firstWarning =
     logs.assertLogs().withLevel(WARNING).withMessageContaining("[FAILED]", BAD_VALUE).getMatch(0);
-  var fineLogs = logs.assertLogs(after(firstWarning).inSameThread()).withLevelAtMost(FINE);
+  // Extract a subset of the logs after a specific event.
+  var fineLogs = logs.assertLogs(after(firstWarning).inSameThread()).withLevel(FINE);
   fineLogs.matchCount().isAtLeast(10);
+  // Assert that the logs we care about have good metadata to help debugging.
   fineLogs.always().haveMetadata("task_id", BAD_TASK_ID);
+  // Perhaps also test some specific expectations about what should not be in these logs.
   fineLogs.withMessageContaining("load", "path=").never().haveMessageContaining("Access Denied");
   ...
 }
 ```
 <!-- @formatter:on -->
 
-And if the "FINE" logs are modified, or new ones are added to the code, this test is not brittle.
+{: .note}
+> Note how, if "FINE" logs are modified or new ones are added, this test is not brittle.
 
-## Installation
+Having seen these simple examples:
+* How much code would it take you to write equivalent tests with your current logs testing API?
+* Have you considered writing these sort of logging tests before?
+* Do you even have a standard logs testing API?
+
+## Summary
 
 If the idea of powerful, readable, easy to maintain logging tests appeals to you, learn more at
 [https://github.com/hagbard/flogger-testing](https://github.com/hagbard/flogger-testing).
+
+{: .note}
+> What's more, this framework still works, in a more limited way, if you're just using JDK logging
+> or Log4J directly. Test fixtures (e.g. `FloggerTestRule`) can still be installed, and logs are 
+> still captured and can be tested, but you'll have to manage setting log levels yourself.
+
+Install the logs testing API and get started today:
 
 <!-- @formatter:off -->
 ```xml
@@ -177,6 +210,8 @@ If the idea of powerful, readable, easy to maintain logging tests appeals to you
 </dependency>
 ```
 <!-- @formatter:on -->
+
+And if you're using `Log4J`:
 
 <!-- @formatter:off -->
 ```xml

@@ -227,6 +227,7 @@ This wraps a `Runnable` or lambda into an instance of [`LazyArg`]({{site.javadoc
 which can then be evaluated only when logging will definitely occur.
 
 <!-- @formatter:off -->
+
 {: .pros }
 > 1. It's concise and keeps everything in a single log statement.
 > 2. It avoids mismatched log levels in guarded blocks.
@@ -237,6 +238,7 @@ which can then be evaluated only when logging will definitely occur.
      made (e.g. if local variables need to be captured).
 > 2. If two or more pieces of logged data depend on each other, it may be impractical to evaluate
      them independently using `lazy()`.
+
 <!-- @formatter:on -->
 
 While `lazy()` can cause small allocations to be made, it is better integrated with features like
@@ -248,13 +250,15 @@ tightest inner loops or most complex cases, you should generally prefer using `l
 Occasionally it's desirable to use a logger within an interface's static or default methods, or
 delay logger instantiation until first use (the latter case can be useful for code used by Flogger).
 
-If you need to delay logger instantiation until first use, use a static "lazy holder" class:
+To address these problems, use a static "lazy holder" class:
 
 ```java
 import com.google.common.flogger.FluentLogger;
 
 public interface Foo {
-   static Foo load(Path path) {
+   // ...
+  
+   default Foo load(Path path) {
       Lazy.logger.atFine().log("loading Foo from path: %s", path);
       // ...
    }

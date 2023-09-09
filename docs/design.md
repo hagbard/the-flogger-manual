@@ -64,12 +64,67 @@ The basic flow of a Flogger log statement can be illustrated as:
 
 ## Logger Backends
 
+Understanding Flogger's design for logging backends will help you understand some of the key 
+design decisions in the rest of the API, and perhaps even give you the confidence to write your 
+own backend implementation (which is nowhere near as hard as you might think).
+
+{: .important}
+> A well written logger backend should work with any Flogger logger implementation.
+
 ### General Responsibilities
 
-### Log Message Parsing
+A logger backend is responsible to accepting and processing the `LogData` instance created by a
+fluent log statement. It has a minimal internal API, which is agnostic to the specifics of the
+user facing logging API. For example, a logging backend has no requirement to understand features 
+such as rate limiting and is not tied to a specific log message syntax.
 
-### Structured Logging
+A logger backend is also responsible for advertising the current log level configured by the 
+underlying logging system.
 
-### Contextual Metadata
+### Log Message Formatting and Structured Logging
+
+Log message formatting parsing is handled entirely by the logger backend, and may even be avoided
+altogether until the log entry processed in some external logs system.
+
+While the default `FluentLogger` implementation uses Java's *printf* style message syntax 
+(exactly the same as `String.format()`), different logger implementations can supply their own 
+syntax parsers to the backend. See `MessageParser`, `PrintfMessageParser` and 
+`BraceStyleMessageParser` in the `com.google.common.flogger.parser` package for details.
+
+If a backend uses the provided `MessageParser` from the logger it's attached to, it need not care 
+what the user facing syntax was. See `SimpleMessageFormatter` for a basic example of how to 
+handle parsing of log messages without making assumptions about format syntax.
+
+### Metadata Processing
+
+When a logger backend is given metadata (in the form of the `Metadata` attached to `LogData` or 
+contextual metadata extracted via `Platform.getContextDataProvider()`), it can choose to 
+interpret some of that data in a special way, but it should always accept any metadata from the 
+user.
+
+In general a backend can choose to either handler known metadata explicitly, ignore it, or 
+format it as part of the "context" section using the default format mechanism.
+
+{: .important}
+> By default, unknown metadata should always be formatted as part of the context section to avoid
+> losing information. Only ignore metadata that you know is explicitly okay to ignore.
+
+An example of explicitly handled metadata is the `cause` attached to a log statement (almost all
+log systems have a built in concept of this). When receiving metadata with the key
+`LogContext.Key.LOG_CAUSE`, the value can be used at the cause in the underlying log entry 
+that's created, and the key can be ignored for further metadata processing.
+
+In general, metadata that's not ignored should be formatted and added to the outgoing log entry 
+somewhere. For example, this is what happens to the metadata for rate limited log statements. 
+
+This means that even if a backend doesn't know about a piece of metadata from a new logger 
+implementation, it will not silently discard it.
 
 ### Forced Logs
+
+Another function of the logger backend is to handle "forced" logs. Forced logging is intended to 
+bypass rate limiting, but can also be used to temporarily change the effective log level to emit 
+additional logs (this is especially useful during tests). A backend should attempt to allow forced 
+logs to be emitted *without* having to change the underlying log level (since that would affect 
+all logs emitted at the same time). Exactly how this happens if dependent on the logging subsystem
+the backend uses.
