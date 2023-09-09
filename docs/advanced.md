@@ -69,9 +69,11 @@ ordered from outermost to innermost and any metadata added at the log-site is "l
 To run a task with a new logging context, use the static factory methods in
 [`ScopedLoggingContexts`]({{site.javadoc}}/context/ScopedLoggingContexts.html):
 
+<!-- @formatter:off -->
 ```java
 ScopedLoggingContexts.newContext().run(mySubTask(...));
 ```
+<!-- @formatter:on -->
 
 Other methods allow you to easily return values or create contexts explicitly for use with
 try/catch blocks or when explicit lifecycle management is needed.
@@ -80,16 +82,20 @@ try/catch blocks or when explicit lifecycle management is needed.
 
 The best way to attach metadata to a context, is to do so when the context is built:
 
+<!-- @formatter:off -->
 ```java
 ScopedLoggingContexts.newContext().withMetadata(TASK_KEY, value).run(mySubTask(...));
 ```
+<!-- @formatter:on -->
 
 If the metadata you wish to add consists of no more than a simple key/value pair which you
 simply wish to appear in log statements, you can also use the `Tags` mechanism to achieve this.
 
+<!-- @formatter:off -->
 ```java
 ScopedLoggingContexts.newContext().withTags(Tags.of("label", "value")).run(mySubTask(...));
 ```
+<!-- @formatter:on -->
 
 The [`Tags`]({{site.javadoc}}/context/Tags.html) mechanism records all the unique key-value
 pairs with which a context was tagged. It does not permit rewriting existing values and does not

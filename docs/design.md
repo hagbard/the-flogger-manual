@@ -62,3 +62,14 @@ The basic flow of a Flogger log statement can be illustrated as:
 > it cleanly separates arguments to be logged, which cannot affect logging behaviour, from 
 > metadata, which can.
 
+## Logger Backends
+
+### General Responsibilities
+
+### Log Message Parsing
+
+### Structured Logging
+
+### Contextual Metadata
+
+### Forced Logs
