@@ -74,10 +74,12 @@ facing some serious issues.
 > output.
 
 But on the flip side of this, fine-grained logging is potentially very valuable, and when done
-properly it can help you identify issues quickly. Flogger supports `ScopedLoggingContext`,
-`LogLevelMap` and `Metadata` to let you control logging within "temporal scopes" (single
-requests or sub-tasks), which gives you much more freedom to enable additional logging only
-where you need it without overburdening your system.
+properly it can help you identify issues quickly. Flogger supports
+[`ScopedLoggingContext`]({{site.javadoc}}/context/ScopedLoggingContext.html),
+[`LogLevelMap`]({{site.javadoc}}/context/LogLevelMap.html) and
+[`Metadata`]({{site.javadoc}}/backend/Metadata.html) to let you control logging within "temporal
+scopes" (single requests or sub-tasks), which gives you much more freedom to enable additional
+logging only where you need it without overburdening your system.
 
 But with this new freedom to enable highly targeted debug logs, it becomes more important that
 the code doing the logging is well tested. Tests need to exercise code with and without debug
