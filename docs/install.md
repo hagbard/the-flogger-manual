@@ -27,25 +27,18 @@ This dependency will provide the logging API for use in libraries, application a
 
 <!-- @formatter:off -->
 ```xml
-<!-- Provides the basic Flogger API (required for any Fluent logger use). -->
-<!-- https://mvnrepository.com/artifact/com.google.flogger/flogger -->
-<dependency>
-  <groupId>com.google.flogger</groupId>
-  <artifactId>flogger</artifactId>
-  <version>$flogger-version$</version>
-</dependency>
 <!-- The default backend implementation (only add this for applications and tests). -->
 <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger-system-backend -->
 <dependency>
   <groupId>com.google.flogger</groupId>
   <artifactId>flogger-system-backend</artifactId>
-  <version>$flogger-version$</version>
+  <version>${flogger-version}</version>
 </dependency>
 ```
 <!-- @formatter:on -->
 
 {: .note }
-> At the time of writing, the latest Flogger version is `0.7.4`.
+> At the time of writing, the latest Flogger version is `0.7.4`{: style="color: red"}.
 
 Adding these dependencies will install the core library and system backend, allowing you to write
 your first Flogger log statements.
@@ -73,14 +66,7 @@ metadata within logging contexts.
 <dependency>
   <groupId>com.google.flogger</groupId>
   <artifactId>flogger-grpc-context</artifactId>
-  <version>$flogger-version$</version>
-</dependency>
-<!-- The underlying gRPC context library (needed for applications and tests, and optional for libraries). -->
-<!-- https://mvnrepository.com/artifact/io.grpc/grpc-context -->
-<dependency>
-  <groupId>io.grpc</groupId>
-  <artifactId>grpc-context</artifactId>
-  <version>1.0.1</version>
+  <version>${flogger-version}</version>
 </dependency>
 ```
 <!-- @formatter:on -->
@@ -109,3 +95,22 @@ See [Advanced Usage](../advanced#logging-contexts) for more information on scope
 and how to use them to improve debugging.
 
 ## Choosing Your Backend
+
+Flogger supports several of the most common logger backends, and all it takes is a top level 
+dependency in your application to select the one you want.
+
+If you are already using `Log4J2` then it's all easy as adding:
+
+<!-- @formatter:off -->
+```xml
+<dependency>
+  <groupId>com.google.flogger</groupId>
+  <artifactId>flogger-log4j2-backend</artifactId>
+  <version>${flogger-version}</version>
+</dependency>
+```
+<!-- @formatter:on -->
+
+There's even an `SLF4J` backend if you prefer to defer to that, and at the time of writing 
+there's a `Log4J v1` backend, but this is very deprecated and could be removed at any time due 
+to numerous known unfixed (and unfixable) issues with `Log4J v1`.

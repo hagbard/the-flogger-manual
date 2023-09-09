@@ -291,4 +291,8 @@ extremely careful to allow logging to occur in any code used as part of the logg
 to document clearly when logging is prohibited).
 
 Having all this complexity behind the scenes is worth it however, because it means that any user, in
-any piece of code, can just initialize and use a Flogger logger without worrying. 
+any piece of code, can just initialize and use a Flogger logger without worrying.
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
