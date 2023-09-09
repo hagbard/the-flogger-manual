@@ -133,6 +133,7 @@ logs to be emitted *without* having to change the underlying log level (since th
 all logs emitted at the same time). Exactly how this happens if dependent on the logging subsystem
 the backend uses.
 
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 [`at()`]: {{site.flogger.AbstractLogger}}#at(java.util.logging.Level)
 
 [`LogContext`]: {{site.flogger.LogContext}}
@@ -148,3 +149,4 @@ the backend uses.
 
 [`Platform`]: {{site.flogger.Platform}}
 [`getContextDataProvider()`]: {{site.flogger.Platform}}#getContextDataProvider()
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->

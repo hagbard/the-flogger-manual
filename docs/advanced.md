@@ -335,4 +335,8 @@ properly.
 > While the `gRPC context` mechanism can be used in isolation, there are also a lot of potential
 > benefits in using the general `gRPC` mechanism in your projects.
 
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 [AdvancedExamples.java]: https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/AdvancedExamples.java
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->

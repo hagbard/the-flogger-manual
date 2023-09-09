@@ -260,6 +260,7 @@ public interface Foo {
 }
 ```
 
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 [Anatomy of an API]: https://google.github.io/flogger/anatomy
 [BasicExamples.java]: https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/BasicExamples.java
 
@@ -275,3 +276,4 @@ public interface Foo {
 
 [`LazyArg`]: {{site.flogger.LazyArg}}
 [`lazy()`]: {{site.flogger.LazyArgs}}#lazy(com.google.common.flogger.LazyArg)
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
