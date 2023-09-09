@@ -38,6 +38,12 @@ aux_links:
   Flogger Repository: https://github.com/google/flogger
   Example Code: https://github.com/hagbard/the-flogger-manual/tree/main/src/main/java/net/goui/flogger/examples
 
+nav_external_links:
+  - title: Flogger Repository on GitHub
+    url: https://github.com/google/flogger
+  - title: Example Code
+    url: https://github.com/hagbard/the-flogger-manual/tree/main/src/main/java/net/goui/flogger/examples
+
 color_scheme: dark
 
 # Copied from https://github.com/just-the-docs/just-the-docs/blob/main/_config.yml
@@ -64,6 +70,19 @@ callouts:
     color: red
 
 javadoc: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger
+
+# List classes in alphabetical order, without package names (unless ambiguous).
+# Sadly YAML is a bit rubbish so you can't substitute in {{javadoc}} from above.
+flogger:
+  AbstractLogger: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/AbstractLogger.html
+  FluentLogger: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/FluentLogger.html
+  LazyArg: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LazyArg.html
+  LazyArgs: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LazyArgs.html
+  LogContext: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LogContext.html
+  LogData: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/LogData.html
+  LoggingApi: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LoggingApi.html
+  Metadata: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/Metadata.html
+  Platform: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/Platform.html
 
 # Exclude from processing.
 # The following items will not be processed, by default.

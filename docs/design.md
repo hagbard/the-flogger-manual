@@ -19,22 +19,22 @@ nav_order: 40
 
 The basic flow of a Flogger log statement can be illustrated as:
 
-<img src="{{ site.baseurl }}/assets/log_statement_flow.svg">
+<img src="{{site.baseurl}}/assets/log_statement_flow.svg">
 
 ### Level Selector
 
 * A level selector is always the first method in a fluent log statement.
-* This method returns the [`LoggingApi`]() instance on which further methods are invoked.
-* In normal use this would be one of the named [`atXxxx()`]() methods, but you can also specify the 
-  log level dynamically via [`at(Level)`]() (though this is generally discouraged).
+* This method returns the [`LoggingApi`] instance on which further methods are invoked.
+* In normal use this would be one of the named `atXxxx()` methods, but you can also specify the 
+  log level dynamically via [`at()`] (though this is generally discouraged).
 * If the requested level is not enabled by log level (according to the backend), then a singleton 
   "no-op" instance is returned. This has the same API, but it is stateless and all its methods are 
   essentially empty. This allows Flogger to avoid any further work for disabled log statements.
 
 ### Fluent API Chain
 
-* The fluent API chain is an optional sequence of fluent API calls from the [`LoggingApi`]().
-* Fluent API calls typically just add metadata to the [`LogContext`]().
+* The fluent API chain is an optional sequence of fluent API calls from the [`LoggingApi`].
+* Fluent API calls typically just add metadata to the [`LogContext`].
 * It is important that little or no work is done in these methods since the log statement may 
   still be discarded (e.g. due to rate limiting).
 * Fluent API calls may throw runtime exceptions for bad arguments, but if they do then the 
@@ -44,8 +44,8 @@ The basic flow of a Flogger log statement can be illustrated as:
 ### Terminal Log Method
 
 * The terminal log method is required to complete a fluent log statement.
-* The log method is either one of the overloads for [`log(String, Object...)`](), 
-  or the special case [`logVarargs(Object[])`]() method.
+* The log method is either one of the overloads for [`log()`] or the special case[`logVarargs()`]
+  method.
 * This triggers post-processing of the log context, which tests for rate limiting and other 
   stateful behaviour.
 * If the log statement is not discarded during post-processing, the logged arguments are packaged 
@@ -73,10 +73,10 @@ own backend implementation (which is nowhere near as hard as you might think).
 
 ### General Responsibilities
 
-A logger backend is responsible to accepting and processing the `LogData` instance created by a
-fluent log statement. It has a minimal internal API, which is agnostic to the specifics of the
-user facing logging API. For example, a logging backend has no requirement to understand features 
-such as rate limiting and is not tied to a specific log message syntax.
+A logger backend is responsible to accepting and processing the [`LogData`] instance created by 
+a fluent log statement. It has a minimal internal API, which is agnostic to the specifics of the 
+user facing logging API. For example, a logging backend has no requirement to understand
+features such as rate limiting and is not tied to a specific log message syntax.
 
 A logger backend is also responsible for advertising the current log level configured by the 
 underlying logging system.
@@ -86,21 +86,25 @@ underlying logging system.
 Log message formatting parsing is handled entirely by the logger backend, and may even be avoided
 altogether until the log entry processed in some external logs system.
 
-While the default `FluentLogger` implementation uses Java's *printf* style message syntax 
-(exactly the same as `String.format()`), different logger implementations can supply their own 
-syntax parsers to the backend. See `MessageParser`, `PrintfMessageParser` and 
-`BraceStyleMessageParser` in the `com.google.common.flogger.parser` package for details.
+While the default [`FluentLogger`]({{site.javadoc}}/FluentLogger.html) implementation uses Java's
+*printf* style message syntax (exactly the same as `String.format()`), different logger
+implementations can supply their own syntax parsers to the backend. See
+[`MessageParser`]({{site.javadoc}}/parser/MessageParser.html),
+[`PrintfMessageParser`]({{site.javadoc}}/parser/PrintfMessageParser.html) and 
+[`BraceStyleMessageParser`]({{site.javadoc}}/parser/BraceStyleMessageParser.html) for details.
 
-If a backend uses the provided `MessageParser` from the logger it's attached to, it need not care 
-what the user facing syntax was. See `SimpleMessageFormatter` for a basic example of how to 
-handle parsing of log messages without making assumptions about format syntax.
+If a backend uses the provided [`MessageParser`]({{site.javadoc}}/parser/MessageParser.html) from
+the logger it's attached to, it need not care what the user facing syntax was. See
+[`SimpleMessageFormatter`]({{site.javadoc}}/backend/SimpleMessageFormatter.html) 
+for a basic example of how to handle parsing of log messages without making assumptions about
+format syntax.
 
 ### Metadata Processing
 
-When a logger backend is given metadata (in the form of the `Metadata` attached to `LogData` or 
-contextual metadata extracted via `Platform.getContextDataProvider()`), it can choose to 
-interpret some of that data in a special way, but it should always accept any metadata from the 
-user.
+When a logger backend is given metadata (in the form of the [`Metadata`] attached to [`LogData`] 
+or contextual metadata extracted via [`getContextDataProvider()`] on the [`Platform`] class,
+it can choose to interpret some of that data in a special way, but it should always accept any
+metadata from the user.
 
 In general a backend can choose to either handler known metadata explicitly, ignore it, or 
 format it as part of the "context" section using the default format mechanism.
@@ -109,9 +113,9 @@ format it as part of the "context" section using the default format mechanism.
 > By default, unknown metadata should always be formatted as part of the context section to avoid
 > losing information. Only ignore metadata that you know is explicitly okay to ignore.
 
-An example of explicitly handled metadata is the `cause` attached to a log statement (almost all
+An example of explicitly handled metadata is the "cause" attached to a log statement (almost all
 log systems have a built in concept of this). When receiving metadata with the key
-`LogContext.Key.LOG_CAUSE`, the value can be used at the cause in the underlying log entry 
+[`LogContext.Key.LOG_CAUSE`], the value can be used at the cause in the underlying log entry 
 that's created, and the key can be ignored for further metadata processing.
 
 In general, metadata that's not ignored should be formatted and added to the outgoing log entry 
@@ -128,3 +132,19 @@ additional logs (this is especially useful during tests). A backend should attem
 logs to be emitted *without* having to change the underlying log level (since that would affect 
 all logs emitted at the same time). Exactly how this happens if dependent on the logging subsystem
 the backend uses.
+
+[`at()`]: {{site.flogger.AbstractLogger}}#at(java.util.logging.Level)
+
+[`LogContext`]: {{site.flogger.LogContext}}
+[`LogContext.Key.LOG_CAUSE`]: {{site.javadoc}}/LogContext.Key.html#LOG_CAUSE
+
+[`LogData`]: {{site.flogger.LogData}}
+
+[`LoggingApi`]: {{site.flogger.LoggingApi}}
+[`log()`]: {{site.flogger.LoggingApi}}#log(java.lang.String,java.lang.Object)
+[`logVarargs()`]: {{site.flogger.LoggingApi}}#logVarargs(java.lang.String,java.lang.Object[])
+
+[`Metadata`]: {{site.flogger.Metadata}}
+
+[`Platform`]: {{site.flogger.Platform}}
+[`getContextDataProvider()`]: {{site.flogger.Platform}}#getContextDataProvider()
