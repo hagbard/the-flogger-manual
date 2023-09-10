@@ -22,8 +22,7 @@ concept of a "log level", which indicates which log statements should be emitted
 verbosity" setting.
 
 This sort of API has been the staple of debug logging almost since the birth of high level computer
-languages. Java introduced its own debug logging API
-in [JDK 1.4](https://docs.oracle.com/cd/E13189_01/kodo/docs303/ref_guide_logging_jdk14.html) (2002).
+languages. Java introduced its own debug logging API in [JDK 1.4] (2002).
 
 Java's default logging API came with limitations and a degree of awkwardness which lead to many
 alternatives being developed, each addressing one or more of the perceived pain points of the
@@ -204,24 +203,24 @@ about in code which is doing logging.
 
 ### Fluent API Choices {#fluent-api-choices}
 
-While a lot of this is discussed in [Anatomy of an API](https://google.github.io/flogger/anatomy),
-it is probably worth reiterating a few key points here.
+While a lot of this is discussed in [Anatomy of an API], it is probably worth reiterating a few key
+points here.
 
 For Flogger's fluent API, the basic construction is of the form:
 
 `logger.<level-selector>.<extensible-API-methods>.<terminal-log-statement>`
 
-The `level-selector` (e.g. `atInfo()`) always comes first because that's where the logger can return
-a "no-op" instance of the API when logging is disabled by level.
+The `level-selector` (e.g. [`atInfo()`]) always comes first because that's where the logger can 
+return a "no-op" instance of the API when logging is disabled by level.
 
 {: .highlight }
 > Flogger's level selector methods are all prefixed with "at", rather than just
 > being `info()`, `warning()` etc. This serves two purposes; it makes the variable level selector
-> method `at(Level)` more discoverable, and it groups the levels together at the start of any API
+> method [`at()`] more discoverable, and it groups the levels together at the start of any API
 > documentation and IDE auto-completion lists.
 
 After the level selector comes an optional sequence of fluent API methods, before the log statement
-is terminated with a `log(...)` or `logVarargs(...)` method.
+is terminated with a [`log()`] or [`logVarargs()`] method.
 
 Every fluent method which accepts arguments must accept a "no-op" value to effectively disable its
 behaviour (e.g. `withCause(null)` or  `atMostEvery(0, SECONDS)`). This is important to ensure that
@@ -294,5 +293,11 @@ Having all this complexity behind the scenes is worth it however, because it mea
 any piece of code, can just initialize and use a Flogger logger without worrying.
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+[JDK 1.4]: https://docs.oracle.com/cd/E13189_01/kodo/docs303/ref_guide_logging_jdk14.html
+[Anatomy of an API]: https://google.github.io/flogger/anatomy
 
+[`at()`]: {{site.flogger.AbstractLogger}}#at(java.util.logging.Level)
+[`atInfo()`]: {{site.flogger.AbstractLogger}}#atInfo()
+[`log()`]: {{site.flogger.LoggingApi}}#log(java.lang.String,java.lang.Object)
+[`logVarargs()`]: {{site.flogger.LoggingApi}}#logVarargs(java.lang.String,java.lang.Object[])
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
