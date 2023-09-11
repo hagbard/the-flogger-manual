@@ -264,16 +264,16 @@ public interface Foo {
 [Anatomy of an API]: https://google.github.io/flogger/anatomy
 [BasicExamples.java]: https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/BasicExamples.java
 
-[`FluentLogger`]: {{site.flogger.FluentLogger}}
+[`FluentLogger`]: {{site.FluentLogger}}
 
-[`LoggingApi`]: {{site.flogger.LoggingApi}}
-[`isEnabled()`]: {{site.flogger.LoggingApi}}#isEnabled()
-[`logVarargs()`]: {{site.flogger.LoggingApi}}#logVarargs(java.lang.String,java.lang.Object[])
-[`withCause()`]: {{site.flogger.LoggingApi}}#withCause(java.lang.Throwable)
-[`withStackTrace()`]: {{site.flogger.LoggingApi}}#withStackTrace(com.google.common.flogger.StackSize)
-[`atMostEvery()`]: {{site.flogger.LoggingApi}}#atMostEvery(int,java.util.concurrent.TimeUnit)
-[`every()`]: {{site.flogger.LoggingApi}}#every(int)
+[`LoggingApi`]: {{site.LoggingApi}}
+[`isEnabled()`]: {{site.LoggingApi}}#isEnabled()
+[`logVarargs()`]: {{site.LoggingApi}}#logVarargs(java.lang.String,java.lang.Object[])
+[`withCause()`]: {{site.LoggingApi}}#withCause(java.lang.Throwable)
+[`withStackTrace()`]: {{site.LoggingApi}}#withStackTrace(com.google.common.flogger.StackSize)
+[`atMostEvery()`]: {{site.LoggingApi}}#atMostEvery(int,java.util.concurrent.TimeUnit)
+[`every()`]: {{site.LoggingApi}}#every(int)
 
-[`LazyArg`]: {{site.flogger.LazyArg}}
-[`lazy()`]: {{site.flogger.LazyArgs}}#lazy(com.google.common.flogger.LazyArg)
+[`LazyArg`]: {{site.LazyArg}}
+[`lazy()`]: {{site.LazyArgs}}#lazy(com.google.common.flogger.LazyArg)
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->

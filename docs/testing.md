@@ -16,7 +16,7 @@ nav_order: 40
 
 ## Testing logs properly is hard
 
-An all too familiar story...
+An all too familiar story...?
 
 {: .highlight}
 > We've all been there; decided to be a good citizen and test our debug logs. Perhaps we added a
@@ -24,7 +24,7 @@ An all too familiar story...
 > very useful.
 >
 > Then we find the existing test code for the class and look for the existing logging tests. Are
-> their any? Do they pass? If you changed existing log statements, how many of them did you break?
+> there any? Do they pass? If you changed existing log statements, how many of them did you break?
 >
 > At some point you ask yourself if it's even really worth adding the logging tests if the existing
 > code isn't well tested. Maybe it's fine to just leave it as it is?

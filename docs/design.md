@@ -134,19 +134,19 @@ all logs emitted at the same time). Exactly how this happens if dependent on the
 the backend uses.
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-[`at()`]: {{site.flogger.AbstractLogger}}#at(java.util.logging.Level)
+[`at()`]: {{site.AbstractLogger}}#at(java.util.logging.Level)
 
-[`LogContext`]: {{site.flogger.LogContext}}
+[`LogContext`]: {{site.LogContext}}
 [`LogContext.Key.LOG_CAUSE`]: {{site.javadoc}}/LogContext.Key.html#LOG_CAUSE
 
-[`LogData`]: {{site.flogger.LogData}}
+[`LogData`]: {{site.LogData}}
 
-[`LoggingApi`]: {{site.flogger.LoggingApi}}
-[`log()`]: {{site.flogger.LoggingApi}}#log(java.lang.String,java.lang.Object)
-[`logVarargs()`]: {{site.flogger.LoggingApi}}#logVarargs(java.lang.String,java.lang.Object[])
+[`LoggingApi`]: {{site.LoggingApi}}
+[`log()`]: {{site.LoggingApi}}#log(java.lang.String,java.lang.Object)
+[`logVarargs()`]: {{site.LoggingApi}}#logVarargs(java.lang.String,java.lang.Object[])
 
-[`Metadata`]: {{site.flogger.Metadata}}
+[`Metadata`]: {{site.Metadata}}
 
-[`Platform`]: {{site.flogger.Platform}}
-[`getContextDataProvider()`]: {{site.flogger.Platform}}#getContextDataProvider()
+[`Platform`]: {{site.Platform}}
+[`getContextDataProvider()`]: {{site.Platform}}#getContextDataProvider()
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
