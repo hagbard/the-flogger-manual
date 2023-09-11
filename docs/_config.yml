@@ -73,15 +73,37 @@ javadoc: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/com
 
 # List classes in alphabetical order, without package names (unless ambiguous).
 # Sadly YAML is a bit rubbish, so you can't substitute in {{javadoc}} from above.
+#
+# List all class names used via:
+#    sed -ne 's@.*({{site\.\([A-Z][A-Za-z0-9._-]*\)}}.*@\1@p' *.md | sort -u
+#
+# To see entries missing from this file:
+#    diff <(egrep '^[A-Z][a-zA-Z0-9-]+: https' _config.yml | cut -d: -f1 | sort -u) \
+#         <(sed -ne 's@.*({{site\.\([A-Z][A-Za-z0-9._-]*\)}}.*@\1@p' *.md | sort -u)
+
 AbstractLogger: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/AbstractLogger.html
+BraceStyleMessageParser: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/parser/BraceStyleMessageParser.html
 FluentLogger: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/FluentLogger.html
 LazyArg: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LazyArg.html
 LazyArgs: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LazyArgs.html
 LogContext: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LogContext.html
+LogContext-Key: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LogContext.Key.html
 LogData: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/LogData.html
+LogLevelMap: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/context/LogLevelMap.html
 LoggingApi: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LoggingApi.html
+MessageParser: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/parser/MessageParser.html
 Metadata: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/Metadata.html
+MetadataKey: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/MetadataKey.html
 Platform: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/Platform.html
+PrintfMessageParser: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/parser/PrintfMessageParser.html
+ScopeType: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/context/ScopeType.html
+ScopedLoggingContext: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/context/ScopedLoggingContext.html
+ScopedLoggingContext-Builder: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/context/ScopedLoggingContext.Builder.html
+ScopedLoggingContexts: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/context/ScopedLoggingContexts.html
+SimpleMessageFormatter: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/SimpleMessageFormatter.html
+Tags: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/context/Tags.html
+
+examples: https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/
 
 # Exclude from processing.
 # The following items will not be processed, by default.

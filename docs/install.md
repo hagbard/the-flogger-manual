@@ -91,12 +91,12 @@ try (var ctx = ScopedLoggingContexts.newContext().withTags(Tags.of("foo", true))
 ```
 <!-- @formatter:on -->
 
-See [Advanced Usage](../advanced#logging-contexts) for more information on scoped contexts
-and how to use them to improve debugging.
+See [Advanced Usage](../advanced#logging-contexts) for more information on scoped contexts and how
+to use them to improve debugging.
 
 ## Choosing Your Backend
 
-Flogger supports several of the most common logger backends, and all it takes is a top level 
+Flogger supports several of the most common logger backends, and all it takes is a top level
 dependency in your application to select the one you want.
 
 If you are already using `Log4J2` then it's all easy as adding:
@@ -111,6 +111,6 @@ If you are already using `Log4J2` then it's all easy as adding:
 ```
 <!-- @formatter:on -->
 
-There's even an `SLF4J` backend if you prefer to defer to that, and at the time of writing 
-there's a `Log4J v1` backend, but this is very deprecated and could be removed at any time due 
-to numerous known unfixed (and unfixable) issues with `Log4J v1`.
+There's even an `SLF4J` backend if you prefer to defer to that, and at the time of writing there's
+a `Log4J v1` backend, but this is very deprecated and could be removed at any time due to numerous
+known unfixed (and unfixable) issues with `Log4J v1`.
