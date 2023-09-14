@@ -71,7 +71,7 @@ To run a task with a new logging context, use the static factory methods in
 
 <!-- @formatter:off -->
 ```java
-ScopedLoggingContexts.newContext().run(mySubTask(...));
+ScopedLoggingContexts.newContext()....run(mySubTask(...));
 ```
 <!-- @formatter:on -->
 
@@ -88,7 +88,7 @@ ScopedLoggingContexts.newContext().withMetadata(TASK_KEY, value).run(mySubTask(.
 ```
 <!-- @formatter:on -->
 
-If the metadata you wish to add consists of no more than a simple key/value pair which you simply
+If the metadata you wish to add consists of no more than a simple key/value pair, which you simply
 wish to appear in log statements, you can also use the `Tags` mechanism to achieve this.
 
 <!-- @formatter:off -->
@@ -98,7 +98,7 @@ ScopedLoggingContexts.newContext().withTags(Tags.of("label", "value")).run(mySub
 <!-- @formatter:on -->
 
 The [`Tags`]({{site.Tags}}) mechanism records all the unique key-value pairs with which a context
-was tagged. It does not permit rewriting existing values and does not preserve the order in which
+was tagged. It does not permit rewriting existing values, and does not preserve the order in which
 tags were applied.
 
 Using tags is easier than creating metadata keys, but it's less structured and only intended for
@@ -109,30 +109,36 @@ accidentally "overwriting" tag values, the tags mechanism merges tags with the s
 overwriting them.
 
 This means that if the tags `{"foo" => "bar"}` and `{"foo" => 23}` are added to contexts, then the
-tags applied to a log statements are `{"foo" => ["bar", 23]}`. This even applies to boolean tags,
-and it is possible to have the tags `{"flag" => [false, true]}`. While this may feel odd at first,
-it guarantees there's never any risk of confusion if two bits of code accidentally use the same
-label for their tags, since all tags are preserved.
+tags applied to a log statements are `{"foo" => ["bar", 23]}`. This even applies to boolean tags, so
+it is possible to have the tags `{"flag" => [false, true]}`. While this may feel odd at first, it
+guarantees there's never any risk of confusion if two bits of code accidentally use the same label
+for their tags, since all tags are preserved.
+
+When [testing tags in log statements](../testing), you should always test that the tag you expect is
+present, without regard for whether other tags (perhaps added by code you don't control, or code
+that is not in scope for your tests) are present.
 
 ### Explicit Lifecycle Control {#explicit-lifecycle-control}
 
 In cases where tasks are conditionally modified after creation, you can also modify an existing
-context. Consider a simple callback object for some managed task lifecycle:
+context. Consider this example callback object for some managed lifecycle:
 
 <!-- @formatter:off -->
 ```java
   @Override
   public void start(Runnable task) {
     // Installs the context in the current thread.
-    this.context=ScopedLoggingContexts.newContext().withMetadata(TASK_KEY, value).install();
+    this.context = ScopedLoggingContexts.newContext().withMetadata(TASK_KEY, value).install();
     super.start(task);
   }
 
+  // This method is optionally called if debugging is enabled. Add tags to the current context.
   @Override
   public void enableDebugging() {
     this.context.addTags(Tags.of("session_id", getDebugId()));
   }
 
+  // This method must always be called after a call to 'start()' as part of the task's lifecycle.
   @Override
   public void close() {
     super.close();
@@ -140,6 +146,11 @@ context. Consider a simple callback object for some managed task lifecycle:
   }
 ```
 <!-- @formatter:on -->
+
+{: .important }
+> When managing the lifecycle of an installed context manually, you **MUST** ensure that contexts
+> are closed in the reverse order to which they are created. This is a hard requirement of the
+> `gRPC` context library which underpins the Flogger context mechanism.
 
 ### Log Level Control {#log-level-control}
 
@@ -149,9 +160,10 @@ debugging within a single execution of a task. Combined with the ability to add 
 identifier via metadata, this lets you easily control logging to suit your debugging needs.
 
 {: .important }
-> When a log statement if forced, it bypasses all rate limiting and sampling thresholds,
-> ensuring that every log statement encountered is emitted. This even applies to log
-> statements which would have been emitted normally anyway.
+> When a log statement if forced, it bypasses all rate limiting and sampling thresholds. This is
+> true even when forcing occurs for logs which would already be emitted (e.g. warnings). This
+> ensures that the set of logs seen in a "forcing" context is always consistent with the set of
+> log statements that were reached.
 
 <!-- @formatter:off -->
 ```java
@@ -160,7 +172,7 @@ identifier via metadata, this lets you easily control logging to suit your debug
           // By default everything at FINE or above is forced (including INFO etc.) even if they 
           // would normally be emitted. This ensures we don't lose anything to rate limiting.
           .setDefault(Level.FINE)
-          // We are particularly interested in SomeClass.class so give it a lower level.
+          // We are particularly interested in SomeClass.class so turn on extra logging.
           .add(Level.FINEST, SomeClass.class)
           .build();
 
@@ -190,8 +202,8 @@ stateful log statements however, and otherwise has no effect.
 
 ### Common Use Cases {#common-use-cases}
 
-The commonest example of log aggregation is using
-the [`per(Enum)`]({{site.LoggingApi}}#per(java.lang.Enum)) method in Flogger's fluent API to specify
+The commonest example of log aggregation is using the
+[`per(Enum)`]({{site.LoggingApi}}#per(java.lang.Enum)) method in Flogger's fluent API to specify
 different rate limiting for different enum values.
 
 Consider a log statement which is attempting to record warnings for some request:
@@ -206,7 +218,8 @@ logger.atWarning()
 
 When there are several request types, and especially if one type creates most of the warnings, it is
 possible that uncommon request types will never appear in the logs. This is a potential problem with
-any log statement rate limiting, but with Flogger you can use log aggregation to avoid it:
+any rate limited log statement, but with Flogger you can use log aggregation to avoid missing
+important information:
 
 <!-- @formatter:off -->
 ```java
@@ -217,8 +230,9 @@ logger.atWarning()
 ```
 <!-- @formatter:on -->
 
-This ensures that rate limiting is applied separately for each value of `requestTypeEnum` and
-ensures each distinct type that's logged will appear.
+Now, rate limiting is applied separately for each value of `requestTypeEnum`, which ensures that
+logs will appear for all request types which were encountered, and the most frequent types will not
+"drown out" other types in the log file.
 
 ### Per Request Log Aggregation {#per-request-log-aggregation}
 
@@ -254,7 +268,7 @@ associate scope type (and if it is executed outside a context for that scope, it
 aggregated).
 
 With well-defined, project specific scopes, this mechanism can help aggregate stateful logging on a
-per-context basis and ensure that rate limited log statements are properly represented for separate
+per-context basis, and ensure that rate limited log statements are properly represented for separate
 tasks.
 
 ## Custom Metadata Keys {#custom-metadata-keys}
@@ -264,19 +278,19 @@ static factory methods in the class. You can create "single valued" or "repeated
 metadata values with.
 
 However, you can also subclass [`MetadataKey`]({{site.MetadataKey}}) and override either
-its [`emit(...)`] or [`emitRepeated(...)`] methods, which gives you access to the collected metadata
-value(s) for that key and lets you process them to determine what should actually be emitted.
+its `emit(...)` or `emitRepeated(...)` methods, which gives you access to the collected metadata
+value(s) for that key and lets you control what should be emitted.
 
 A few examples of use cases for this might be:
 
 1. Collecting repeated metadata and joining values into a single path-like result (e.g.
    "foo/baz/baz").
-2. Using metadata values as system property names, and looking up the value to the return via
+2. Redacting part of a sensitive metadata value by only emitted a summary of it.
+3. Using metadata values as system property names, and looking up the value to the return via
    `System.getProperty()`.
-3. Having a procedural `MetadataKey<Boolean>` which looks up some current system status value
+4. Having a procedural `MetadataKey<Boolean>` which looks up some current system status value
    (e.g. remaining heap memory). This can then be called
-   via [`with(MetadataKey)`]({{site.LoggingApi}}#with(com.google.common.flogger.MetadataKey)),
-   passing only the key and allowing the value to be determined as the log statement is emitted.
+   via [`with(MetadataKey)`]({{site.LoggingApi}}#with(com.google.common.flogger.MetadataKey)).
 
 ## Caveats and Limitations {#caveats-and-limitations}
 
@@ -300,20 +314,20 @@ there are a few minor caveats to bear in mind.
    shared library requires that the specific type used is advertised to users of the library, so
    they can create contexts using it.
 
-4. When using the [`per(...)`]({{site.LoggingApi}}#per(java.lang.Enum)) method which takes a
-   `LogPerBucketingStrategy`, it is important to avoid using a strategy which produces a lot of
-   unique results. For each unique value passed to a stateful log statement, a new piece of internal
-   state must be created, and this is held onto indefinitely. This is why enums are recommended as
-   the best approach, since they have only a small finite set of values. A bucketing strategy which
-   allows an unbounded number of values to be used will create a slow, but unbounded, memory leak.
-
-5. When subclassing [`MetadataKey`]({{site.MetadataKey}}), care must be taken to ensure that any
+4. When subclassing [`MetadataKey`]({{site.MetadataKey}}), care must be taken to ensure that any
    work done during the `emit(...)` or `emitRepeated(...)` method is efficient, and never locks any
    user objects. For example, in the case of looking up system property names (see above), it would
    be good practice to cache resolved property values in a `ConcurrentMap` of some kind to avoid
    repeated look-ups. For values which might change over time (e.g. system memory status) it would
    be strongly advised to cache values with a minimum refresh interval to avoid "thrashing" when log
    rates are high.
+
+5. When using the [`per(...)`]({{site.LoggingApi}}#per(java.lang.Enum)) method which takes a
+   `LogPerBucketingStrategy`, it is important to avoid using a strategy which produces a lot of
+   unique results. For each unique value passed to a stateful log statement, a new piece of internal
+   state must be created, and this is held onto indefinitely. This is why enums are recommended as
+   the best approach, since they have only a small finite set of values. A bucketing strategy which
+   allows an unbounded number of values to be used will create a slow, but unbounded, memory leak.
 
 ## Grpc Context Propagation {#gprc-context-propagation}
 

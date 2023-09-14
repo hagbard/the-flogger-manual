@@ -118,9 +118,11 @@ statements. To make this easy, Flogger provides a way to "force" logging to occu
 contexts. A forced log statement will bypass rate limiting methods, and by surrounding code under
 test with a "forcing context", you can ensure that log statements will always be emitted.
 
-This is good for testing, but can also be good when using contexts to enable additional logging
-(e.g. when debugging a specific request or sub-task) since it allows you to reliably emit every log
-statement encountered in a specific context. See [Advanced Usage](../advanced) for more information.
+This is [good for testing](../testing), but can also be good when using contexts to enable
+additional logging (e.g. when debugging a specific request or sub-task) since it allows you to
+reliably emit every log statement encountered in a specific context.
+
+See [Advanced Usage](../advanced) for more information.
 
 ### Design Notes {#design-notes}
 

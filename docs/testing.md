@@ -31,13 +31,14 @@ An all too familiar story...?
 >
 > Or maybe you're on the other side of the fence; an engineer tasked with finding the cause of an
 > urgent issue. You have enabled extra logging to see what's going on, but now tasks start having
-> errors left and right! What's going on?!
+> errors left and right! What's happening?!
 >
-> You realize that by enabling extra logging you just introduced a lot of previously untested code
-> paths into the production system. Insufficiently tested classes are now failing in `toString()`,
-> or perhaps memory usage just spiked because you're suddenly outputting so many more logs. Thread
-> contention for locks increases as large, mutable objects get locked for formatting, and what was
-> a smoothly running concurrent system is suddenly spluttering to a halt.
+> By enabling extra logging you just introduced a lot of previously untested code paths into a
+> production system. Maybe insufficiently tested classes are now failing when `toString()` is
+> called, or memory usage is spiking because of the large increase in log output. Or perhaps
+> increased thread contention is affecting user latency as large, mutable objects are locked for
+> formatting. You don't know for sure what's going on, but what was a smoothly running system is
+> suddenly spluttering to a halt.
 >
 > <center>And you haven't even started to debug the issue you came here for!</center>
 
@@ -47,18 +48,18 @@ Or to put it another way:
 > "*When you are up to your ass in alligators, it's hard to remember that you started
 > out to drain the swamp*" -- Robert Anton Wilson
 
-Good logging hygiene and good logs testing hygiene go hand in hand. Software engineers need to be
-encouraged to write good debug logs, but they also need to be able to write and maintain tests for
-them. Without both an easy-to-use logging API, combined with an easy-to-use logs testing API, logs
-testing is likely to be an afterthought during development.
+Good logging hygiene and good logs testing go hand in hand. Software engineers need to be encouraged
+to write good debug logs, but they also need to be able to write and maintain tests for them.
+Without both an easy-to-use logging API, combined with an easy-to-use logs testing API, logs testing
+is likely to end up an afterthought during development.
 
 ### What's different about logs testing?
 
-Unlike most other programming statements, log statements never return a value which can be checked
-and are expected not to cause any observable state changes within the program. In an ideal system, a
-log statement would never affect, or be affected by the surrounding code, whether enabled or not.
-This means that many of the normal approaches to unit testing, such as asserting expected values or
-using test-doubles don't apply well to logs testing.
+Unlike most other programming statements, log statements never return a value which can be checked,
+and they are expected not to cause any observable state changes within the program. In an ideal
+system, a log statement would never affect, or be affected by the surrounding code, whether enabled
+or not. This means that many of the normal approaches to unit testing, such as asserting expected
+values or using test-doubles don't apply well to logs testing.
 
 Another important difference is that in many systems, the majority of log statements are disabled by
 default (i.e. "fine" logging). This means that in normal unit tests there isn't even implicit
@@ -74,17 +75,12 @@ bugs until logging is enabled, which is often the worst time to discover them.
 So if you want to test all your logs statements, they need to be enabled, but if you enable all your
 logging, you are no longer testing a representative version of your code. Latency changes and
 unintended side effects from logging could be masking other issues. So do you enable fine-grained
-logging in tests or not? You need to be able to write tests, both with and without debug logging
-enabled, but they should not be slowed down due to excessive log output.
-
-{: .important}
-> It should be easy to write good logging tests which aren't brittle in the face of simple changes,
-> such as moving log statements between methods/classes, or small changes to existing log
-> statements.
+logging in tests or not? You need to be able to easily write tests, both with and without debug
+logging enabled.
 
 ## Help is at hand
 
-Having recognized the difficulty and issues caused by insufficient or overly brittle logs testing
+Having recognized the difficulty and issues caused by insufficient, or overly brittle logs testing
 over many years at Google, I decided to finally do something about it.
 
 Introducing the [Flogger Logs Testing Library](https://github.com/hagbard/flogger-testing). An easy
@@ -109,9 +105,7 @@ logs.assertLogs(after(taskStart).inSameThread()).withLevel(WARNING).doNotOccur()
 ```
 <!-- @formatter:on -->
 
-which work for multiple logging backends without modification,
-
-How about writing tests which can trivially test additional logging over the same code.
+How about easily writing tests which can trivially test additional logging over the same code?
 
 In the first test, logging is set to the default for the test class (e.g. "INFO") and we don't test
 all the fine logs that might appear (in normal use fine logs would not even be captured):
@@ -221,4 +215,4 @@ And if you're using `Log4J`:
 <!-- @formatter:on -->
 
 {: .note }
-> At the time of writing, the latest Flogger testing library version is `1.0.3`{: style="color: red"}.
+> At the time of writing, the latest Flogger testing library version is `1.0.4`{: style="color: red"}.
