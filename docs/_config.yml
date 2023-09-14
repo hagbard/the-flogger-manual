@@ -35,19 +35,19 @@ theme: just-the-docs
 #  - jekyll-default-layout
 
 aux_links:
-  Flogger Repository: https://github.com/google/flogger
   Example Code: https://github.com/hagbard/the-flogger-manual/tree/main/src/main/java/net/goui/flogger/examples
 
 nav_external_links:
-  - title: Flogger Repository on GitHub
-    url: https://github.com/google/flogger
   - title: Example Code
     url: https://github.com/hagbard/the-flogger-manual/tree/main/src/main/java/net/goui/flogger/examples
+    hide_icon: true  # same repository (not "external")
+  - title: Flogger (GitHub)
+    url: https://github.com/google/flogger
 
 color_scheme: dark
 
 # Copied from https://github.com/just-the-docs/just-the-docs/blob/main/_config.yml
-callouts_level: loud # quiet or loud (for dark theme)
+callouts_level: loud  # quiet or loud (for dark theme)
 callouts:
   highlight:
     color: yellow

@@ -10,20 +10,21 @@ nav_order: 10
     Table of contents
   </summary>
   {: .text-delta }
-1. TOC
+- TOC
 {:toc}
 </details>
 
 ## Maven Dependencies
 
-The easiest way to try out Flogger is to install the code in this project and run the various
-examples. If you've decided to try out Flogger in your own Maven project, the easiest way to install
-and use it is by specifying its Maven dependencies.
+The easiest way to try out Flogger is to install the code in this project, and run the various
+examples. If you've decided to try out Flogger in your own Maven project, you just need to specify
+its Maven dependencies.
 
-The simplest way to get started is to install the "system" backend which logs via the JDK's built-in
-logging libraries.
+To get started, install the "system" backend which logs via the JDK's built-in logging libraries.
+This logger backend is always available, and once you've got things working it's easy to switch to
+a backend of your choice.
 
-This dependency will provide the logging API for use in libraries, application and tests.
+This dependency will provide the logging API for use in libraries, applications and tests.
 
 <!-- @formatter:off -->
 ```xml
