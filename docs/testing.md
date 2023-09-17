@@ -10,13 +10,13 @@ nav_order: 40
     Table of contents
   </summary>
   {: .text-delta }
-1. TOC
+- TOC
 {:toc}
 </details>
 
 ## Testing logs properly is hard
 
-An all too familiar story...
+An all too familiar story...?
 
 {: .highlight}
 > We've all been there; decided to be a good citizen and test our debug logs. Perhaps we added a
@@ -24,20 +24,21 @@ An all too familiar story...
 > very useful.
 >
 > Then we find the existing test code for the class and look for the existing logging tests. Are
-> their any? Do they pass? If you changed existing log statements, how many of them did you break?
+> there any? Do they pass? If you changed existing log statements, how many of them did you break?
 >
-> At some point you ask yourself if it's even really worth adding the logging tests if the existing
-> code isn't well tested. Maybe it's fine to just leave it as it is?
+> At some point perhaps you asked yourself if it's even really worth adding the logging tests if
+> the existing code wasn't well tested. After all what's the worst that can happen?
 >
 > Or maybe you're on the other side of the fence; an engineer tasked with finding the cause of an
-> urgent issue. You enable extra logging to see what's going on, but now tasks start having errors
-> left and right! What's going on?!
+> urgent issue. You have enabled extra logging to see what's going on, but now tasks start having
+> errors left and right! What's happening?!
 >
-> You realize that by enabling extra logging you just introduced a whole bunch of previously
-> untested code paths into the production system. Insufficiently tested classes are now failing in
-> `toString()`, or perhaps memory usage just spiked because you're suddenly outputting so many more
-> logs. Thread contention for locks increases as large, mutable objects get locked during 
-> formatting, and what was a smoothly running concurrent system is suddenly spluttering to a halt.
+> By enabling extra logging you just introduced a lot of previously untested code paths into a
+> production system. Maybe insufficiently tested classes are now failing when `toString()` is
+> called, or memory usage is spiking because of the large increase in log output. Or perhaps
+> increased thread contention is affecting user latency as large, mutable objects are locked for
+> formatting. You don't know for sure what's going on, but what was a smoothly running system is
+> suddenly spluttering to a halt.
 >
 > <center>And you haven't even started to debug the issue you came here for!</center>
 
@@ -47,57 +48,44 @@ Or to put it another way:
 > "*When you are up to your ass in alligators, it's hard to remember that you started
 > out to drain the swamp*" -- Robert Anton Wilson
 
-Good logging hygiene and good logs testing hygiene go hand in hand. Software engineers need to
-be encouraged to write good debug logs, but they also need to be able to write and maintain tests 
-for them. Without an easy-to-use logging API, combined with an easy-to-use logs testing API, 
-logs testing is likely to be an afterthought during development.
+Good logging hygiene and good logs testing go hand in hand. Software engineers need to be encouraged
+to write good debug logs, but they also need to be able to write and maintain tests for them.
+Without both an easy-to-use logging API, combined with an easy-to-use logs testing API, logs testing
+is likely to end up an afterthought during development.
 
-Unlike most other programming statements, log statements never return a value which can be 
-checked or create an observable state change within the program. A log statement should never 
-affect, or be affected by the surrounding code, whether enabled or not. Apart from the overhead 
-of logging in terms of additional allocations and time, the system should be essentially unaffected.
-This means that many of the normal approaches to unit testing simply don't apply to testing logs.
+### What's different about logs testing?
 
-Furthermore, most logging system (JDK logging, Apache LOG4J etc.) were initially designed before 
-the advent of highly scalable data center environments for running code. Applications ran on a 
-few machines and enabling extra logging for debugging or testing was less of a risk. Logger
-configuration was simple, largely static, and operated on the "structural scope" of classes and
-packages. However, if your system is running across thousands of machines, serving low latency 
-request, and outputting gigabytes of logs a day, you can't just "turn up" the logging without 
-facing some serious issues.
+Unlike most other programming statements, log statements never return a value which can be checked,
+and they are expected not to cause any observable state changes within the program. In an ideal
+system, a log statement would never affect, or be affected by the surrounding code, whether enabled
+or not. This means that many of the normal approaches to unit testing, such as asserting expected
+values or using test-doubles don't apply well to logs testing.
+
+Another important difference is that in many systems, the majority of log statements are disabled by
+default (i.e. "fine" logging). This means that in normal unit tests there isn't even implicit
+testing of these log statements as the surrounding code is executed. This risks hiding important
+bugs until logging is enabled, which is often the worst time to discover them.
 
 {: .note}
 > Anecdotally, from my time at Google, a good rule of thumb is that for each level of additional
-> logging you enable (e.g. `INFO⟶FINE` or `FINE⟶FINER`) you get approximately 10-times
-> more log output. Finer logs typically run more often in innermost loops and usually log
-> larger payloads. Not many production systems will cope well with being hit by >100-times more log
-> output.
+> logging you enable (e.g. `INFO⟶FINE` or `FINE⟶FINER`) you get approximately 10-times more log
+> output. Finer logs typically run more often in innermost loops and usually log larger payloads.
+> Not many production systems will cope well with suddenly being hit by >100 times more log output.
 
-But on the flip side of this, fine-grained logging is potentially very valuable, and when done
-properly it can help you identify issues quickly. Flogger supports
-[`ScopedLoggingContext`]({{site.javadoc}}/context/ScopedLoggingContext.html),
-[`LogLevelMap`]({{site.javadoc}}/context/LogLevelMap.html) and
-[`Metadata`]({{site.javadoc}}/backend/Metadata.html) to let you control logging within "temporal
-scopes" (single requests or sub-tasks), which gives you much more freedom to enable additional
-logging only where you need it without overburdening your system.
-
-But with this new freedom to enable highly targeted debug logs, it becomes more important that
-the code doing the logging is well tested. Tests need to exercise code with and without debug
-logging enabled, but not be slowed down with excessive log output.
-
-{: .important}
-> It should be easy to write good logging tests which aren't brittle in the face of simple changes,
-> such as moving log statements between methods/classes, or small changes to existing log
-> statements.
+So if you want to test all your logs statements, they need to be enabled, but if you enable all your
+logging, you are no longer testing a representative version of your code. Latency changes and
+unintended side effects from logging could be masking other issues. So do you enable fine-grained
+logging in tests or not? You need to be able to easily write tests, both with and without debug
+logging enabled.
 
 ## Help is at hand
 
-Having recognized the difficulty and issues caused by insufficient or overly brittle logs
-testing over many years at Google, I decided to finally do something about it.
+Having recognized the difficulty and issues caused by insufficient, or overly brittle logs testing
+over many years at Google, I decided to finally do something about it.
 
-Introducing the [Flogger Logs Testing Library](https://github.com/hagbard/flogger-testing). An
-easy to use, readable, powerful API for logs testing. It's designed for Flogger but will work
-with other logging libraries (with a slightly degraded set of features).
+Introducing the [Flogger Logs Testing Library](https://github.com/hagbard/flogger-testing). An easy
+to use, readable, powerful API for logs testing. It's designed for Flogger but will work with other
+logging libraries (with a slightly degraded set of features).
 
 Would you like to be able to write readable log assertions like:
 
@@ -117,9 +105,7 @@ logs.assertLogs(after(taskStart).inSameThread()).withLevel(WARNING).doNotOccur()
 ```
 <!-- @formatter:on -->
 
-which work for multiple logging backends without modification,
-
-How about writing tests which can trivially test additional logging over the same code.
+How about easily writing tests which can trivially test additional logging over the same code?
 
 In the first test, logging is set to the default for the test class (e.g. "INFO") and we don't test
 all the fine logs that might appear (in normal use fine logs would not even be captured):
@@ -185,6 +171,7 @@ public void testFailedTask_debugLogs() {
 > Note how, if "FINE" logs are modified or new ones are added, this test is not brittle.
 
 Having seen these simple examples:
+
 * How much code would it take you to write equivalent tests with your current logs testing API?
 * Have you considered writing these sort of logging tests before?
 * Do you even have a standard logs testing API?
@@ -196,7 +183,7 @@ If the idea of powerful, readable, easy to maintain logging tests appeals to you
 
 {: .note}
 > What's more, this framework still works, in a more limited way, if you're just using JDK logging
-> or Log4J directly. Test fixtures (e.g. `FloggerTestRule`) can still be installed, and logs are 
+> or Log4J directly. Test fixtures (e.g. `FloggerTestRule`) can still be installed, and logs are
 > still captured and can be tested, but you'll have to manage setting log levels yourself.
 
 Install the logs testing API and get started today:
@@ -228,8 +215,4 @@ And if you're using `Log4J`:
 <!-- @formatter:on -->
 
 {: .note }
-> At the time of writing, the latest Flogger testing library version is `1.0.3`{: style="color: red"}.
-
-<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-
-<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+> At the time of writing, the latest Flogger testing library version is `1.0.4`{: style="color: red"}.

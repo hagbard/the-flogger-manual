@@ -10,7 +10,7 @@ nav_order: 100
     Table of contents
   </summary>
   {: .text-delta }
-1. TOC
+- TOC
 {:toc}
 </details>
 
@@ -35,8 +35,8 @@ these APIs are still largely based on the simple principles of the JDK logger.
 
 Since the introduction of these basic logging APIs, software has scaled up and become much more
 complex. Distributed servers accept many thousands of requests per second, and produce gigabytes of
-logs every hour. A single request can touch dozens of backend machines, leaving a "vapour
-trail" of logs in many places.
+logs every hour. A single request can touch dozens of backend machines, leaving a "vapour trail" of
+logs in many places.
 
 The challenges for debug logging are no longer limited to locally run applications, or servers on a
 single machine. If debug logging is to remain a useful tool for developers, it needs to evolve to
@@ -60,8 +60,8 @@ API to be extended with new functionality. This turned out to be extremely benef
 allowed Flogger to be extended to support the use cases of many teams, and avoid any need for
 "wrapper" APIs to be created.
 
-Once it became clear that Flogger's API offered real benefits over the existing collection of 
-logging APIs used in Google, it was decided to proceed with the project. 
+Once it became clear that Flogger's API offered real benefits over the existing collection of
+logging APIs used in Google, it was decided to proceed with the project.
 
 ### Benefits of a Unified Logging API {#benefits-of-a-unified-logging-api}
 
@@ -116,8 +116,8 @@ costs involved in doing a multi-year migration.
 
 However, these decisions were made for a code base which is almost uniquely large and complicated,
 and I don't want anyone reading this to think I am suggesting that migrating all your code to use
-Flogger would definitely be worth. Your code base has its own complexities and requirements and if
-you decide to work towards having a single logging API, you need to decide what's best for you.
+Flogger would definitely be worth it. Your code base has its own complexities and requirements and,
+if you decide to work towards having a single logging API, you need to decide what's best for you.
 
 ## API Design Choices {#api-design-choices}
 
@@ -126,8 +126,8 @@ is affected by many intersecting requirements.
 
 During Flogger's development millions of log statements were analyzed, and ideas for Flogger's API
 were tested rigorously against existing code. Every aspect of the API was discussed in depth, from
-object lifecycles to "simple" method naming. To make an API which could replace dozens of existing
-logging APIs and wrapper classes, every use case needed to be addressed.
+object lifecycles to the "simple" issue of method naming. To make an API which could replace
+hundreds of existing logging APIs and wrapper classes, every use case needed to be addressed.
 
 Injecting or passing logger instances between classes creates a "viral" dependency on a specific
 logger implementation, which either prevents easy code refactoring or discourages classes from doing
@@ -142,16 +142,16 @@ never predict in which code it would be used. When logging is disabled, logging 
 be zero cost.
 
 It must also **never** hold locks at any point during a normal log statement since, even without a
-risk of deadlocks, the use of locks can cause latency issues and thread contention in high
-performance code.
+risk of deadlocks, the use of locks can cause thread contention, leading to latency issues in
+multi-threaded code.
 
 A good logging API must also be usable from any piece of code, including static methods called
 during class loading, which can occur before the application's `main()` method is invoked. This
 leads to some complication around initialization and configuration.
 
 A logging statement must also never cause an exception to be propagated into the calling code.
-Enabling additional logging is something you do when debugging something else, it cannot be
-allowed to cause more problems, and you cannot assume the user is able to recompile the code easily.
+Enabling additional logging is something you do when debugging something else, it cannot be allowed
+to cause more problems, and you cannot assume the user is able to recompile affected code easily.
 
 **However, one of the most compelling design requirements for any logging API is simplicity.**
 
@@ -163,13 +163,13 @@ until such time as debugging occurs and in a lot of cases they are not explicitl
 often won't think hard about a log statement they are adding and don't want to have to make hard
 decisions about which parts of the logging API to use.
 
-However, when logging is needed (e.g. during debugging) log output and the log statements which
-produced them must be reliable and easy to reason about. A user must be able to understand, at a
-glance, what a log statement will do and under what conditions they expect to see output.
+When debugging an issue, log output and the log statements which produced them must be reliable and
+easy to reason about. A user must be able to understand, at a glance, what a log statement will do,
+and under what conditions they expect to see output.
 
 {: .highlight }
 > A user in the middle of debugging a serious issue should never also have to reason about some
-> subtle behaviour from their logging API.
+> subtle behaviour in their logging API.
 
 These principles of simplicity and readability informed the bulk of the API design for Flogger, and
 even seemingly unimportant choices can often be tracked back to one or more of the above ideas.
@@ -177,7 +177,7 @@ even seemingly unimportant choices can often be tracked back to one or more of t
 ### Instantiating Loggers {#instantiating-loggers}
 
 One example of where a seemingly simple design choice was informed by lot of subtle reasoning, was
-how Flogger logger instances were created:
+how Flogger logger instances are created:
 
 <!-- @formatter:off -->
 ```java
@@ -188,13 +188,14 @@ private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
 While other logging APIs often instantiate logger instances using a "name" or "tag" or some variety,
 Flogger explicitly avoids this. In fact the naming of the static method `forEnclosingClass()` leaves
-it deliberately ambiguous as to exactly what the "name" of the logger might be. The logger you
-get is one that's "right" for your class according to the current logging configuration, including
-which backend is used. The name `forEnclosingClass()` also acts to remind callers that passing
-loggers between classes is discouraged
+it deliberately ambiguous as to exactly what the "name" of the logger might be. The logger you get
+is one that's "right for that class" according to the current logging configuration, including which
+backend is used. The name `forEnclosingClass()` also acts to remind callers that the instance
+created is intended for use only in that class and, implicitly, passing logger instances between
+classes is discouraged
 
-There's also no way to get a "name" for a logger as a user, it's just not a concept you should care
-about in code which is doing logging.
+There's also no way for users to get the "name" of logger instance; it's just not something you
+should care about.
 
 {: .highlight }
 > While the "name" of a logger is often the name of the class using it, that's not required for
@@ -211,17 +212,18 @@ For Flogger's fluent API, the basic construction is of the form:
 
 `logger.<level-selector>.<extensible-API-methods>.<terminal-log-statement>`
 
-The `level-selector` (e.g. `atInfo()`) always comes first because that's where the logger can return
-a "no-op" instance of the API when logging is disabled by level.
+The `level-selector` (e.g. [`atInfo()`]({{site.AbstractLogger}}#atInfo())) always comes first,
+because that's where the logger can return a "no-op" instance of the API when logging is disabled.
 
 {: .highlight }
 > Flogger's level selector methods are all prefixed with "at", rather than just
 > being `info()`, `warning()` etc. This serves two purposes; it makes the variable level selector
-> method `at(Level)` more discoverable, and it groups the levels together at the start of any API
+> method [`at()`]({{site.AbstractLogger}}#at(java.util.logging.Level)) more discoverable, and it groups the levels together at the start of any API
 > documentation and IDE auto-completion lists.
 
 After the level selector comes an optional sequence of fluent API methods, before the log statement
-is terminated with a `log(...)` or `logVarargs(...)` method.
+is terminated with a [`log()`]({{site.LoggingApi}}#log(java.lang.String,java.lang.Object))
+or [`logVarargs()`]({{site.LoggingApi}}#logVarargs(java.lang.String,java.lang.Object[])) method.
 
 Every fluent method which accepts arguments must accept a "no-op" value to effectively disable its
 behaviour (e.g. `withCause(null)` or  `atMostEvery(0, SECONDS)`). This is important to ensure that
@@ -292,7 +294,3 @@ to document clearly when logging is prohibited).
 
 Having all this complexity behind the scenes is worth it however, because it means that any user, in
 any piece of code, can just initialize and use a Flogger logger without worrying.
-
-<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-
-<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
