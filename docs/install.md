@@ -86,8 +86,8 @@ try (var ctx = ScopedLoggingContexts.newContext().withTags(Tags.of("foo", true))
 
   // Contexts can be nested and metadata is merged.
   ScopedLoggingContexts.newContext()
-    .withTags(Tags.of("bar", "baz"))
-    .run(() -> logger.atInfo().log("The log statement has 'foo' and 'bar' metadata."));
+      .withTags(Tags.of("bar", "baz"))
+      .run(() -> logger.atInfo().log("The log statement has 'foo' and 'bar' metadata."));
 }
 ```
 <!-- @formatter:on -->
