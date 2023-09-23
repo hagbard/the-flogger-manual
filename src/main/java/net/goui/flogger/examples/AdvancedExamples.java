@@ -1,12 +1,12 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- Copyright (c) 2023, David Beaumont (https://github.com/hagbard).
+Copyright (c) 2023, David Beaumont (https://github.com/hagbard).
 
- This program and the accompanying materials are made available under the terms of the
- Eclipse Public License v. 2.0 available at https://www.eclipse.org/legal/epl-2.0, or the
- Apache License, Version 2.0 available at https://www.apache.org/licenses/LICENSE-2.0.
+This program and the accompanying materials are made available under the terms of the
+Eclipse Public License v. 2.0 available at https://www.eclipse.org/legal/epl-2.0, or the
+Apache License, Version 2.0 available at https://www.apache.org/licenses/LICENSE-2.0.
 
- SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 package net.goui.flogger.examples;
 
@@ -29,11 +29,11 @@ import java.util.logging.Level;
  * -Dflogger.backend_factory=com.google.common.flogger.backend.system.SimpleBackendFactory
  * }</pre>
  */
-public class AdvancedExamples {
+public final class AdvancedExamples {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static void main(String[] args) {
-    SharedLogLevel.parse(args.length > 0 ? args[0] : "INFO").apply();
+    LevelConfig.setLogLevel(args.length > 0 ? args[0] : "INFO");
     metadataExample();
     metadataWithContextExample();
     logAggregationExample();
@@ -76,7 +76,7 @@ public class AdvancedExamples {
    * A boolean metadata key can be used as a purely procedural key, pulling its current value from
    * the system environment.
    *
-   * <p>Note: In this simple example the value is not cached, but it properly should be. A more
+   * <p>Note: In this simple example the value is not cached, but it probably should be. A more
    * complex example might sample underlying system data with some minimum rate period to avoid a
    * lot of repeated work.
    */
@@ -225,4 +225,6 @@ public class AdvancedExamples {
       logger.atInfo().every(30).per(REQUEST).log("Task: %s", taskId);
     }
   }
+
+  private AdvancedExamples() {}
 }
