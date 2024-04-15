@@ -63,12 +63,16 @@ public class BasicExamplesTest {
                     .withCause(NumberFormatException.class))
         .once();
 
-    // An example of why using "expectations" (vs direct assertions) can be fragile. The
-    // following log statement appears in the static initialization of the BasicExamples class,
-    // which may, or may not, be triggered for this test, but since we need to account for all
-    // logs emitted, we must add something for it (even though it may not occur).
-    // Other tests do not need to care about this log statement.
-    logs.expectLogs(log -> log.withMessageContaining("FluentLogger", "instance")).atMost(1);
+    /*
+     * An example of why using exhaustive expectations can be fragile. The following log statement
+     * appears in the static initialization of the BasicExamples class, which may, or may not, be
+     * triggered for this test, but since we need to account for all logs emitted, we must add
+     * something for it (even though it may not occur). Other tests do not need to care about this
+     * log statement.
+     */
+    logs.expectLogs(
+            log -> log.allowingNoMatches().withMessageContaining("FluentLogger", "instance"))
+        .atMost(1);
 
     BasicExamples.basicExample();
   }
@@ -76,7 +80,7 @@ public class BasicExamplesTest {
   @Test
   public void testBasicExample_hybridApproach() {
     // Set up the logging policy (in a normal test this would usually be up as a static field).
-    logs.verify(assertLogs -> assertLogs.withLevelAtLeast(WARNING).doNotOccur());
+    logs.verify(logs -> logs.withLevelAtLeast(WARNING).doNotOccur());
 
     // Account for warnings via expectations. They aren't the subject of this test (even though they
     // violate the logging policy) so we permit them.
