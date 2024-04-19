@@ -2,7 +2,7 @@
 layout: page
 title: Background
 permalink: /background/
-nav_order: 100
+nav_order: 110
 ---
 
 <details open markdown="block">

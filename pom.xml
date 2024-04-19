@@ -43,7 +43,13 @@
         <dependency>
             <groupId>net.goui.flogger-testing</groupId>
             <artifactId>junit4</artifactId>
-            <version>1.0.11</version>
+            <version>1.0.12</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.1.0-jre</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/net.goui.flogger-testing -->
         <dependency>
@@ -52,24 +58,18 @@
             <version>1.0.11</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>33.0.0-jre</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.truth/truth -->
         <dependency>
             <groupId>com.google.truth</groupId>
             <artifactId>truth</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.truth.extensions/truth-java8-extension -->
         <dependency>
             <groupId>com.google.truth.extensions</groupId>
             <artifactId>truth-java8-extension</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/junit/junit -->

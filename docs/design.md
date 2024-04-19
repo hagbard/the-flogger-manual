@@ -2,7 +2,7 @@
 layout: page
 title: Flogger Design
 permalink: /design/
-nav_order: 40
+nav_order: 100
 ---
 
 <details open markdown="block">

@@ -26,9 +26,11 @@ specified log level.
 ```java
 logger.atInfo().log("Hello World");
 ```
+<!-- @formatter:on -->
 
 Or, with a printf formatted message and argument:
 
+<!-- @formatter:off -->
 ```java
 logger.atInfo().log("Hello %s World", argument);
 ```
