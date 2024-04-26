@@ -17,7 +17,9 @@ nav_order: 50
 ## What is Flogger Next?
 
 Flogger Next is a project to enhance and extend the original Flogger API with additional features
-and provide improved integration with the underlying logging system.
+and provide improved integration with the underlying logging system. If provides a drop-in
+replacement [`FluentLogger`]({{site.next.FluentLogger}}) implementation with additional features as
+well as new backend implementations and features.
 
 ## Efficient log statements with String Template syntax
 
@@ -92,7 +94,7 @@ object allocations and class initialization cost.
 {: .note }
 > While sharing logger backends can reduce the granularity of logging control via the underlying
 > logging system, Flogger offers additional logging control features not found in other logging
-> APIs which make up for this. 
+> APIs which make up for this.
 
 See [Backend Naming](backend) for more.
 

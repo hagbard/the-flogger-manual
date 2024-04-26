@@ -14,9 +14,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.flogger.StackSize.SMALL;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.flogger.FluentLogger;
 import java.time.Duration;
 import java.util.function.BiConsumer;
+import net.goui.flogger.FluentLogger;
 
 /**
  * Basic examples of logging with {@link FluentLogger}.

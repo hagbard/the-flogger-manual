@@ -13,7 +13,6 @@ package net.goui.flogger.examples;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.flogger.FluentLogger;
 import com.google.common.flogger.context.ScopedLoggingContexts;
 import com.google.common.flogger.context.Tags;
 import com.google.common.util.concurrent.Futures;
@@ -27,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
+import net.goui.flogger.FluentLogger;
 
 /**
  * An example class which carries out dummy tasks and logs their status. This is used alongside

@@ -21,17 +21,36 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <compilerArgs>--enable-preview</compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger-log4j2-backend -->
+        <!-- https://mvnrepository.com/artifact/net.goui.flogger-next/logger -->
         <dependency>
-            <groupId>com.google.flogger</groupId>
-            <artifactId>flogger-log4j2-backend</artifactId>
-            <version>0.8</version>
+            <groupId>net.goui.flogger-next</groupId>
+            <artifactId>logger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.goui.flogger-next/backend-log4j -->
+        <dependency>
+            <groupId>net.goui.flogger-next</groupId>
+            <artifactId>backend-log4j</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger-grpc-context -->
         <dependency>
@@ -39,24 +58,24 @@
             <artifactId>flogger-grpc-context</artifactId>
             <version>0.8</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/net.goui.flogger-testing -->
+        <!-- https://mvnrepository.com/artifact/net.goui.flogger-testing/junit4 -->
         <dependency>
             <groupId>net.goui.flogger-testing</groupId>
             <artifactId>junit4</artifactId>
             <version>1.0.12</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.goui.flogger-testing/log4j -->
+        <dependency>
+            <groupId>net.goui.flogger-testing</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.0.12</version>
+            <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>33.1.0-jre</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/net.goui.flogger-testing -->
-        <dependency>
-            <groupId>net.goui.flogger-testing</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.0.11</version>
-            <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.truth/truth -->
         <dependency>
