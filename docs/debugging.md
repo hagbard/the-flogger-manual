@@ -1,9 +1,10 @@
 ---
 layout: page
 title: "Debugging With Flogger"
-permalink: /debugging/
 nav_order: 45
 ---
+
+# Debugging With Flogger
 
 <details open markdown="block">
   <summary>
@@ -151,5 +152,5 @@ multi-stage process.
 > with fine granularity, as you would normally only need to enable a moderate amount of additional
 > logging for some set of packages, rather than controlling log levels on a per class basis.
 
-Learn more about how [logger backend naming](next_backend.md) in Flogger Next works well with this
+Learn more about how [logger backend naming](next_backend) in Flogger Next works well with this
 approach, while reducing class initialization costs.

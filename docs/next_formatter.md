@@ -1,9 +1,10 @@
 ---
 layout: page
 title: "Next: Custom Formating"
-permalink: /next/formatter/
 nav_order: 53
 ---
+
+# Custom Formating
 
 <details open markdown="block">
   <summary>
@@ -21,7 +22,7 @@ configurable message format. Flogger Next fixes this by providing logger backend
 which can take advantage of an easily configured customizable message formatter.
 
 To change the message format for Flogger backends, simply provide
-a [Flogger Next option](next_options.md) of the form:
+a [Flogger Next option](next_options) of the form:
 
 ```properties
 flogger.message_formatter.pattern=<message template>

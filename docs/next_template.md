@@ -1,9 +1,10 @@
 ---
 layout: page
 title: "Next: String Templates"
-permalink: /next/templates/
 nav_order: 51
 ---
+
+# String Templates
 
 <details open markdown="block">
   <summary>

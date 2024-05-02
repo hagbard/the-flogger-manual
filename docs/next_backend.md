@@ -1,9 +1,10 @@
 ---
 layout: page
 title: "Next: Backend Naming"
-permalink: /next/backend/
 nav_order: 54
 ---
+
+# Backend Naming
 
 <details open markdown="block">
   <summary>
@@ -17,7 +18,7 @@ nav_order: 54
 ## Introduction
 
 {: .note}
-> This page is best read in conjunction with the section [Debugging With Flogger](debugging.md).
+> This page is best read in conjunction with the section [Debugging With Flogger](debugging).
 
 Almost every modern Java logging system has the concept of "named loggers". In most cases, the name
 of a logger is just the name of the class in which that logger is used, and class will initialize
@@ -123,7 +124,7 @@ its [`LoggerBackend`]({{site.LoggerBackend}}).
 ### Why is ScopedLoggingContext important?
 
 The [`ScopedLoggingContext`]({{site.ScopedLoggingContext}}) mechanism (see
-also [Advanced Usage](../../advanced/)) is an important Flogger feature to enhance debugging via log
+also [Advanced Usage](advanced)) is an important Flogger feature to enhance debugging via log
 statements. It permits logging to be "forced" within user defined contexts for arbitrary packages or
 classes. This largely replaces the need for users to edit and reload logging configuration while
 debugging, while providing proper scoping for log level debugging changes (e.g. for a single
@@ -326,7 +327,7 @@ of magnitude reduction.
 However, for modern server based applications, this reduction in fine-grained configurability is not
 expected to be an issue, because in many cases it would be inefficient or impractical to try to
 debug an issue by altering the log levels of individual classes.
-See [Debugging With Flogger](debugging.md) for more.
+See [Debugging With Flogger](debugging) for more.
 
 ## Installation
 

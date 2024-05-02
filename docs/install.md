@@ -1,9 +1,10 @@
 ---
 layout: page
 title: Installing Flogger
-permalink: /install/
 nav_order: 10
 ---
+
+# Installing Flogger
 
 <details open markdown="block">
   <summary>
@@ -39,7 +40,7 @@ This dependency will provide the logging API for use in libraries, applications 
 <!-- @formatter:on -->
 
 {: .note }
-> At the time of writing, the latest Flogger version is `0.7.4`{: style="color: red"}.
+> At the time of writing, the latest Flogger version is `0.8`{: style="color: red"}.
 
 Adding these dependencies will install the core library and system backend, allowing you to write
 your first Flogger log statements.
@@ -92,7 +93,7 @@ try (var ctx = ScopedLoggingContexts.newContext().withTags(Tags.of("foo", true))
 ```
 <!-- @formatter:on -->
 
-See [Advanced Usage](../advanced#logging-contexts) for more information on scoped contexts and how
+See [Advanced Usage](advanced#logging-contexts) for more information on scoped contexts and how
 to use them to improve debugging.
 
 ## Choosing Your Backend

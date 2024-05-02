@@ -1,9 +1,10 @@
 ---
 layout: page
 title: Flogger Design
-permalink: /design/
 nav_order: 100
 ---
+
+# Flogger Design
 
 <details open markdown="block">
   <summary>

@@ -1,9 +1,10 @@
 ---
 layout: page
 title: "Next: Options"
-permalink: /next/options/
 nav_order: 52
 ---
+
+# Options
 
 <details open markdown="block">
   <summary>

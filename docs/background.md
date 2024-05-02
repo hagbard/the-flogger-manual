@@ -1,9 +1,10 @@
 ---
 layout: page
 title: Background
-permalink: /background/
 nav_order: 110
 ---
+
+# Background
 
 <details open markdown="block">
   <summary>
@@ -30,7 +31,7 @@ alternatives being developed, each addressing one or more of the perceived pain 
 original API, such as supporting variable numbers of arguments or improving message format syntax.
 
 Today the most common alternative logging APIs
-are [Apache Log4J](https://logging.apache.org/log4j/2.x/) and [SLF4J](https://www.slf4j.org/), but
+are [Apache Log4J](https://logging.apache.org/log4j/2.x) and [SLF4J](https://www.slf4j.org), but
 these APIs are still largely based on the simple principles of the JDK logger.
 
 Since the introduction of these basic logging APIs, software has scaled up and become much more

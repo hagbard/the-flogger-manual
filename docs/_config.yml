@@ -43,6 +43,10 @@ nav_external_links:
     hide_icon: true  # same repository (not "external")
   - title: Flogger (GitHub)
     url: https://github.com/google/flogger
+  - title: Flogger Testing (GitHub)
+    url: https://github.com/hagbard/flogger-testing
+  - title: Flogger Next (GitHub)
+    url: https://github.com/hagbard/flogger-next
 
 color_scheme: dark
 

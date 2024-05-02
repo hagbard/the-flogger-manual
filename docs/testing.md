@@ -1,9 +1,10 @@
 ---
 layout: page
 title: Testing Logs
-permalink: /testing/
 nav_order: 40
 ---
+
+# Testing Logs
 
 <details open markdown="block">
   <summary>

@@ -2,12 +2,14 @@
 layout: home
 ---
 
+# The Flogger Manual
+
 [Flogger](https://github.com/google/flogger) is Google's open-source Java debug logging library.
 
-It is simple to use but comes with some powerful features which set it apart from a lot of the
-logging APIs you might have used before. Flogger is used extensively within Google to satisfy the
-needs of many hundreds of Java and Kotlin projects, and is the only Java logging API supported by
-the core Java libraries team.
+It is simple to use, and comes with some powerful features which sets it apart from many other
+logging APIs. Flogger is used extensively within Google to satisfy the needs of many hundreds of
+Java and Kotlin projects, and is the only Java logging API supported by the core Java libraries
+team.
 
 Flogger makes extensive use of the "fluent API" design pattern to provide an intuitive and
 feature-rich API, which can improve both the readability of log statements within code and the value
@@ -33,11 +35,11 @@ with more advanced topics building on earlier concepts.
 
 In addition to explaining the basic Flogger library, this manual also describes:
 
-1. The `flogger-next` project, which provides artifacts for:
-   * Extending Flogger's core API to utilize the new String template syntax (JDK 21 or above).
-   * Improved logger backends, with better integration and customizable plugins.
-2. The `flogger-testing` project which provides an intuitive API for testing debug logs (either from
-   Flogger or other loggers).
+1. The Flogger Next project, which provides artifacts for:
+    * Extending Flogger's core API to utilize the new String template syntax (JDK 21 or above).
+    * Improved logger backends, with better integration and customizable plugins.
+2. The Flogger Testing project which provides an intuitive API for easily unit testing logging
+   (either from Flogger or other loggers).
 
 This manual is unofficial, but has been written by Flogger's original creator, and is more thorough
 than the [official documentation](https://github.com/google/flogger) in many places.

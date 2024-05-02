@@ -1,9 +1,10 @@
 ---
 layout: page
 title: "Flogger Next"
-permalink: /next/
 nav_order: 50
 ---
+
+# Flogger Next
 
 <details open markdown="block">
   <summary>

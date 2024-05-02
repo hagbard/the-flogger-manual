@@ -1,9 +1,10 @@
 ---
 layout: page
 title: Advanced Usage
-permalink: /advanced/
 nav_order: 30
 ---
+
+# Advanced Usage
 
 <details open markdown="block">
   <summary>
@@ -114,7 +115,7 @@ it is possible to have the tags `{"flag" => [false, true]}`. While this may feel
 guarantees there's never any risk of confusion if two bits of code accidentally use the same label
 for their tags, since all tags are preserved.
 
-When [testing tags in log statements](../testing), you should always test that the tag you expect is
+When [testing tags in log statements](testing), you should always test that the tag you expect is
 present, without regard for whether other tags (perhaps added by code you don't control, or code
 that is not in scope for your tests) are present.
 
