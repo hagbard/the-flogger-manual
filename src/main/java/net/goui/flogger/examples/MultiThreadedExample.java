@@ -32,7 +32,6 @@ import net.goui.flogger.FluentLogger;
  * An example class which carries out dummy tasks and logs their status. This is used alongside
  * {@code TaskExampleTest} to illustrate the Flogger logs testing API.
  */
-@SuppressWarnings("UnstableApiUsage")
 public final class MultiThreadedExample {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

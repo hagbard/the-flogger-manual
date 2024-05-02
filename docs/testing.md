@@ -191,9 +191,9 @@ Install the logs testing API and get started today:
 
 <!-- @formatter:off -->
 ```xml
-<!-- https://mvnrepository.com/artifact/net.goui.flogger-testing.junit4 -->
+<!-- https://mvnrepository.com/artifact/net.goui.flogger.testing.junit4 -->
 <dependency>
-    <groupId>net.goui.flogger-testing</groupId>
+    <groupId>net.goui.flogger.testing</groupId>
     <artifactId>junit4</artifactId>  <!-- or unit5 -->
     <version>${flogger-testing-version}</version>
     <scope>test</scope>
@@ -205,9 +205,9 @@ And if you're using `Log4J`:
 
 <!-- @formatter:off -->
 ```xml
-<!-- https://mvnrepository.com/artifact/net.goui.flogger-testing.logj4 -->
+<!-- https://mvnrepository.com/artifact/net.goui.flogger.testing.logj4 -->
 <dependency>
-    <groupId>net.goui.flogger-testing</groupId>
+    <groupId>net.goui.flogger.testing</groupId>
     <artifactId>log4j</artifactId>
     <version>${flogger-testing-version}</version>
     <scope>test</scope>
