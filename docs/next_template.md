@@ -116,7 +116,7 @@ which is essential for Flogger.
 <!-- @formatter:off -->
 ```xml
 <dependency>
-    <groupId>net.goui.flogger-next</groupId>
+    <groupId>net.goui.flogger.next</groupId>
     <artifactId>logger</artifactId>
     <version>${flogger-next.version}</version>
 </dependency>

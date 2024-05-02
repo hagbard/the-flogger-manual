@@ -333,7 +333,7 @@ See [Debugging With Flogger](debugging.md) for more.
 <!-- @formatter:off -->
 ```xml
 <dependency>
-    <groupId>net.goui.flogger-next</groupId>
+    <groupId>net.goui.flogger.next</groupId>
     <artifactId>backend-system</artifactId>
     <version>${flogger-next.version}</version>
 </dependency>
@@ -343,7 +343,7 @@ See [Debugging With Flogger](debugging.md) for more.
 <!-- @formatter:off -->
 ```xml
 <dependency>
-    <groupId>net.goui.flogger-next</groupId>
+    <groupId>net.goui.flogger.next</groupId>
     <artifactId>backend-log4j</artifactId>
     <version>${flogger-next.version}</version>
 </dependency>

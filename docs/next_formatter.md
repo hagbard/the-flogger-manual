@@ -194,7 +194,7 @@ Formatter plugins can be specified by one of the following Flogger Next options:
 <!-- @formatter:off -->
 ```xml
 <dependency>
-    <groupId>net.goui.flogger-next</groupId>
+    <groupId>net.goui.flogger.next</groupId>
     <artifactId>backend-system</artifactId>
     <version>${flogger-next.version}</version>
 </dependency>
@@ -204,7 +204,7 @@ Formatter plugins can be specified by one of the following Flogger Next options:
 <!-- @formatter:off -->
 ```xml
 <dependency>
-    <groupId>net.goui.flogger-next</groupId>
+    <groupId>net.goui.flogger.next</groupId>
     <artifactId>backend-log4j</artifactId>
     <version>${flogger-next.version}</version>
 </dependency>
