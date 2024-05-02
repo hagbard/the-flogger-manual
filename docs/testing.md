@@ -1,9 +1,10 @@
 ---
 layout: page
 title: Testing Logs
-permalink: /testing/
 nav_order: 40
 ---
+
+# Testing Logs
 
 <details open markdown="block">
   <summary>
@@ -154,12 +155,12 @@ public void testFailedTask_debugLogs() {
   ClassUnderTest.doTestTask(badRequest);
 
   var firstWarning =
-    logs.assertLogs().withLevel(WARNING).withMessageContaining("[FAILED]", BAD_VALUE).getMatch(0);
+    logs.assertLogs().withLevel(WARNING).withMessageContaining("[FAILED]", TEST_TASK_NAME).getMatch(0);
   // Extract a subset of the logs after a specific event.
   var fineLogs = logs.assertLogs(after(firstWarning).inSameThread()).withLevel(FINE);
   fineLogs.matchCount().isAtLeast(10);
-  // Assert that the logs we care about have good metadata to help debugging.
-  fineLogs.always().haveMetadata("task_id", BAD_TASK_ID);
+  // Assert that the logs we care about have a task ID to help debugging.
+  fineLogs.always().haveMetadata("task_id", TEST_TASK_ID);
   // Perhaps also test some specific expectations about what should not be in these logs.
   fineLogs.withMessageContaining("load", "path=").never().haveMessageContaining("Access Denied");
   ...
@@ -168,7 +169,8 @@ public void testFailedTask_debugLogs() {
 <!-- @formatter:on -->
 
 {: .note}
-> Note how, if "FINE" logs are modified or new ones are added, this test is not brittle.
+> Note how, if "FINE" log statements are modified or new ones are added, this test is not brittle
+> since it is only testing for the existence of the expected task ID.
 
 Having seen these simple examples:
 
@@ -190,9 +192,9 @@ Install the logs testing API and get started today:
 
 <!-- @formatter:off -->
 ```xml
-<!-- https://mvnrepository.com/artifact/net.goui.flogger-testing.junit4 -->
+<!-- https://mvnrepository.com/artifact/net.goui.flogger.testing.junit4 -->
 <dependency>
-    <groupId>net.goui.flogger-testing</groupId>
+    <groupId>net.goui.flogger.testing</groupId>
     <artifactId>junit4</artifactId>  <!-- or unit5 -->
     <version>${flogger-testing-version}</version>
     <scope>test</scope>
@@ -204,15 +206,12 @@ And if you're using `Log4J`:
 
 <!-- @formatter:off -->
 ```xml
-<!-- https://mvnrepository.com/artifact/net.goui.flogger-testing.logj4 -->
+<!-- https://mvnrepository.com/artifact/net.goui.flogger.testing.logj4 -->
 <dependency>
-    <groupId>net.goui.flogger-testing</groupId>
+    <groupId>net.goui.flogger.testing</groupId>
     <artifactId>log4j</artifactId>
     <version>${flogger-testing-version}</version>
     <scope>test</scope>
 </dependency>
 ```
 <!-- @formatter:on -->
-
-{: .note }
-> At the time of writing, the latest Flogger testing library version is `1.0.4`{: style="color: red"}.

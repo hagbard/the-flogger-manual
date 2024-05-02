@@ -12,13 +12,13 @@ package net.goui.flogger.examples;
 
 import static com.google.common.flogger.context.ScopeType.REQUEST;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.common.flogger.MetadataKey;
 import com.google.common.flogger.context.LogLevelMap;
 import com.google.common.flogger.context.ScopedLoggingContext;
 import com.google.common.flogger.context.ScopedLoggingContexts;
 import java.util.Iterator;
 import java.util.logging.Level;
+import net.goui.flogger.FluentLogger;
 
 /**
  * Examples of using metadata and contexts with {@link FluentLogger}.
@@ -65,7 +65,7 @@ public final class AdvancedExamples {
         protected void emitRepeated(Iterator<String> values, KeyValueHandler kvh) {
           StringBuilder joined = new StringBuilder();
           values.forEachRemaining(v -> joined.append(v).append('/'));
-          if (joined.length() > 0) {
+          if (!joined.isEmpty()) {
             joined.setLength(joined.length() - 1);
           }
           kvh.handle(getLabel(), joined.toString());

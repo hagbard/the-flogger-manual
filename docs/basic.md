@@ -1,9 +1,10 @@
 ---
 layout: page
 title: Basic Usage
-permalink: /basic/
 nav_order: 20
 ---
+
+# Basic Usage
 
 <details open markdown="block">
   <summary>
@@ -26,9 +27,11 @@ specified log level.
 ```java
 logger.atInfo().log("Hello World");
 ```
+<!-- @formatter:on -->
 
 Or, with a printf formatted message and argument:
 
+<!-- @formatter:off -->
 ```java
 logger.atInfo().log("Hello %s World", argument);
 ```
@@ -118,11 +121,11 @@ statements. To make this easy, Flogger provides a way to "force" logging to occu
 contexts. A forced log statement will bypass rate limiting methods, and by surrounding code under
 test with a "forcing context", you can ensure that log statements will always be emitted.
 
-This is [good for testing](../testing), but can also be good when using contexts to enable
+This is [good for testing](testing), but can also be good when using contexts to enable
 additional logging (e.g. when debugging a specific request or sub-task) since it allows you to
 reliably emit every log statement encountered in a specific context.
 
-See [Advanced Usage](../advanced) for more information.
+See [Advanced Usage](advanced) for more information.
 
 ### Design Notes {#design-notes}
 
@@ -140,7 +143,7 @@ its rate limit period. There are several reasons for this:
    to `atMostEvery(2, MINUTES)`).
 4. The use of a value-and-unit parameter pair often makes log statements more human-readable (i.e.
    "at most every two minutes"), and helps make it immediately clear as to what the log statement
-   will do. See [API Design Choices](../background#api-design-choices) for more on Flogger's design
+   will do. See [API Design Choices](background#api-design-choices) for more on Flogger's design
    principles.
 
 {: .note }

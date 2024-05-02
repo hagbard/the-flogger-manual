@@ -43,6 +43,10 @@ nav_external_links:
     hide_icon: true  # same repository (not "external")
   - title: Flogger (GitHub)
     url: https://github.com/google/flogger
+  - title: Flogger Testing (GitHub)
+    url: https://github.com/hagbard/flogger-testing
+  - title: Flogger Next (GitHub)
+    url: https://github.com/hagbard/flogger-next
 
 color_scheme: dark
 
@@ -90,6 +94,8 @@ LogContext: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/
 LogContext-Key: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LogContext.Key.html
 LogData: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/LogData.html
 LogLevelMap: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/context/LogLevelMap.html
+LogMessageFormatter: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/LogMessageFormatter.html
+LoggerBackend: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/LoggerBackend.html
 LoggingApi: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/LoggingApi.html
 MessageParser: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/parser/MessageParser.html
 Metadata: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/Metadata.html
@@ -102,6 +108,13 @@ ScopedLoggingContext-Builder: https://javadoc.io/doc/com.google.flogger/flogger/
 ScopedLoggingContexts: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/context/ScopedLoggingContexts.html
 SimpleMessageFormatter: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/backend/SimpleMessageFormatter.html
 Tags: https://javadoc.io/doc/com.google.flogger/flogger/latest/com/google/common/flogger/context/Tags.html
+
+next:
+  DefaultLevelFormatter: https://github.com/hagbard/flogger-next/blob/master/backend-common/src/main/java/net/goui/flogger/backend/common/formatter/DefaultLevelFormatter.java
+  DefaultLocationFormatter: https://github.com/hagbard/flogger-next/blob/master/backend-common/src/main/java/net/goui/flogger/backend/common/formatter/DefaultLocationFormatter.java
+  DefaultTimestampFormatter: https://github.com/hagbard/flogger-next/blob/master/backend-common/src/main/java/net/goui/flogger/backend/common/formatter/DefaultTimestampFormatter.java
+  FluentLogger: https://github.com/hagbard/flogger-next/blob/master/logger/src/main/java/net/goui/flogger/FluentLogger.java
+  Options: https://github.com/hagbard/flogger-next/blob/master/backend-common/src/main/java/net/goui/flogger/backend/common/Options.java
 
 examples: https://github.com/hagbard/the-flogger-manual/blob/main/src/main/java/net/goui/flogger/examples/
 
