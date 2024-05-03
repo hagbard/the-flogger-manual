@@ -192,15 +192,19 @@ Formatter plugins can be specified by one of the following Flogger Next options:
 
 ## Installation
 
+JDK logging backend (replaces the `com.google.flogger:flogger-system-backend` dependency):
+
 <!-- @formatter:off -->
 ```xml
 <dependency>
-    <groupId>net.goui.flogger.next</groupId>
-    <artifactId>backend-system</artifactId>
-    <version>${flogger-next.version}</version>
+  <groupId>net.goui.flogger.next</groupId>
+  <artifactId>backend-system</artifactId>
+  <version>${flogger-next.version}</version>
 </dependency>
 ```
 <!-- @formatter:on -->
+
+Log4J 2 backend (replaces the `com.google.flogger:flogger-log4j2-backend` dependency):
 
 <!-- @formatter:off -->
 ```xml

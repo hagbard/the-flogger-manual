@@ -117,9 +117,40 @@ which is essential for Flogger.
 <!-- @formatter:off -->
 ```xml
 <dependency>
-    <groupId>net.goui.flogger.next</groupId>
-    <artifactId>logger</artifactId>
-    <version>${flogger-next.version}</version>
+  <groupId>net.goui.flogger.next</groupId>
+  <artifactId>logger</artifactId>
+  <version>${flogger-next.version}</version>
 </dependency>
+```
+<!-- @formatter:on -->
+
+Ensuring the JDK String Template mechanism is enabled (this step will eventually become
+unnecessary):
+
+<!-- @formatter:off -->
+```xml
+<build>
+  <pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+        <configuration>
+          <source>21</source>
+          <target>21</target>
+          <compilerArgs>--enable-preview</compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <argLine>--enable-preview</argLine>
+        </configuration>
+      </plugin>
+      ...
+    </plugins>
+  </pluginManagement>
+</build>
 ```
 <!-- @formatter:on -->
