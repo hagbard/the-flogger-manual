@@ -4,16 +4,16 @@ title: "Next: String Templates"
 nav_order: 51
 ---
 
+<!-- @formatter:off -->
 # String Templates
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## Introduction
 
@@ -26,7 +26,7 @@ String message = "Add: x=\{ x } + y=\{ y }: x+y=\{ x + y }"
 ```
 <!-- @formatter:on -->
 
-For some use cases this can make code more readably compared to alternatives such as:
+For some use cases this can make code more readable, compared to alternatives such as:
 
 <!-- @formatter:off -->
 ```java

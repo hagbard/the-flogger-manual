@@ -4,16 +4,16 @@ title: "Debugging With Flogger"
 nav_order: 45
 ---
 
+<!-- @formatter:off -->
 # Debugging With Flogger
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## Logging Configuration And Debugging
 

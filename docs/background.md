@@ -4,16 +4,16 @@ title: Background
 nav_order: 110
 ---
 
+<!-- @formatter:off -->
 # Background
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## Motivation and History {#motivation-and-history}
 

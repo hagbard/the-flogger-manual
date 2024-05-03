@@ -4,16 +4,16 @@ title: Advanced Usage
 nav_order: 30
 ---
 
+<!-- @formatter:off -->
 # Advanced Usage
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 For working code examples for advanced usage,
 see [AdvancedExamples.java]({{site.examples}}/AdvancedExamples.java).

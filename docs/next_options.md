@@ -4,16 +4,16 @@ title: "Next: Options"
 nav_order: 52
 ---
 
+<!-- @formatter:off -->
 # Options
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## Introduction
 
@@ -22,8 +22,8 @@ options system is provided.
 
 Flogger Next options are supplied in a form compatible with the underlying logging system used. For
 the JDK logger backend, options are specified in the `logging.properties` file (or wherever logging
-properties reside). For the Log4J2 backend, properties are specified in the `log4j2.xml` file, or
-wherever Log4J2 options reside.
+properties reside). For the Log4J2 backend, properties are specified in the `log4j2.xml` file (or
+wherever Log4J2 options reside).
 
 ### JDK Logger Backend
 
@@ -40,18 +40,18 @@ For the Log4J2 backend, options are specified as Log4J properties:
 <!-- @formatter:off -->
 ```xml
 <Configuration>
-    <Properties>
-        <Property name="flogger.some.option.name">Arbitrary option value string!</Property>
-        ...
-    </Properties>
+  <Properties>
+    <Property name="flogger.some.option.name">Arbitrary option value string!</Property>
     ...
+  </Properties>
+  ...
 </Configuration>
 ```
 <!-- @formatter:on -->
 
 {: .note}
-> In most examples in this documentation, the JDK form is used to show example option values due
-> to its simplicity.
+> In most examples in this documentation, the `logging.properties` form is used to show example
+> option values due to its simplicity.
 
 ## Option Namespace and Layout
 
@@ -69,6 +69,6 @@ For the Log4J2 backend, options are specified as Log4J properties:
       to `flogger.foo.bar=First` and `flogger.foo.baz=Second`).
     * This applies to lists as well as individual values (e.g. `flogger.some.list=@my.other.values`
       and `my.other.values.size=N` etc.).
-   * To specify a normal value which starts with `@`, simply prefix a second one (i.e. `@@value`).
-   * Aliased properties do not need to start with `flogger.` and, to avoid any risk of clashing
+    * To specify a non-alias value which starts with `@`, simply prefix a second one (i.e. `@@value`).
+    * Aliased properties do not need to start with `flogger.` and, to avoid any risk of clashing
       option names in the future, they probably shouldn't.

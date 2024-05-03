@@ -4,16 +4,16 @@ title: "Next: Backend Naming"
 nav_order: 54
 ---
 
+<!-- @formatter:off -->
 # Backend Naming
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## Introduction
 
