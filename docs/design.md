@@ -4,16 +4,16 @@ title: Flogger Design
 nav_order: 100
 ---
 
+<!-- @formatter:off -->
 # Flogger Design
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## Log Statement Flow
 

@@ -4,16 +4,16 @@ title: "Next: Custom Formating"
 nav_order: 53
 ---
 
+<!-- @formatter:off -->
 # Custom Formating
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## Introduction
 
@@ -29,25 +29,25 @@ flogger.message_formatter.pattern=<message template>
 ```
 
 {: .note}
-> This will define the message format for Flogger, but not affect any additional formatting added
-> by the underling logging system. As such, it might also be beneficial to modify the underlying
-> formatting to avoid duplicate message elements etc.
+> This will define the message format for Flogger, but will not affect any additional formatting
+> added by the underling logging system. As such, it might also be beneficial to modify the
+> underlying formatting to avoid duplicate message elements etc.
 
 ## Message Pattern Syntax
 
 The message syntax is based on simple token substitution, where known tokens (e.g. `%{message}`)
 are replaced by the specific element value, and other text is treated literally.
 
-A simple example might be:
+A simple example to emit the log message followed by a space and any metadata, might be:
 
 ```properties
 flogger.message_formatter.pattern=${message} %{metadata}
 ```
 
 However, for tokens with optional values (e.g. metadata keys which may not be set for a specific log
-event) there is the ability to set a prefix and suffix for a token which will only be emitted if the
-token is substituted. This makes it easy to add a bit of structure to log messages while avoiding
-additional separators or empty lists (e.g. `[]`).
+event) there is the ability to set a prefix and suffix for a token, which will only be emitted if
+the token is substituted. This makes it easy to add a bit of structure to log messages while
+avoiding additional separators or empty lists (e.g. `[]`).
 
 This is achieved by adding optional prefix and suffix text in the token descriptor, such
 as `%{token-name/prefix-text}` or `%{token-name/prefix-text/suffix-text}`
@@ -58,11 +58,15 @@ For example, to avoid having a trailing space in the above example, it is better
 flogger.message_formatter.pattern=${message}%{metadata/ }
 ```
 
-And to wrap metadata with array-like formatting with `[`, `]`:
+which only adds a space after the message (as a prefix to the metadata) if metadata is present.
+
+Extending this to wrap metadata with array-like formatting with `[`, `]`, you just need:
 
 ```properties
 flogger.message_formatter.pattern=${message}%{metadata/ [/]}
 ```
+
+which adds surrounding `[`, `]` to any metadata present for that log event.
 
 {: .note}
 > Prefix and suffix text is arbitrary, and you can use `\` to escape meta-characters such as
@@ -79,13 +83,12 @@ by user code.
 The following tokens always emit a value, so prefix or suffix text is not allowed.
 
 * `%{message}`:
-    * The formatted base message passed to the `log()` method. This is formatted as per Java's
-      String Formatter syntax and cannot be customized directly.
+    * The formatted base message passed to the `log()` method. This is formatted according to the
+      chosen backend implementation, and cannot be modified directly by the pattern formatter.
     * This is a built-in format, and cannot be replaced with a plugin.
 * `%{timestamp}`:
-    * The timestamp of the log event. By default, this is formatted according to ISO-8601 format by
-      default, but this can be modified via the `flogger.message_formatter.timestamp.pattern`
-      option.
+    * The timestamp of the log event. By default, this is formatted according to ISO-8601 format,
+      but this can be modified via the `flogger.message_formatter.timestamp.pattern` option.
     * See [DefaultTimestampFormatter]({{site.next.DefaultTimestampFormatter}}) for more details.
     * This plugin can be changed via `flogger.message_formatter.timestamp.impl`
 * `%{level}`:
@@ -96,7 +99,7 @@ The following tokens always emit a value, so prefix or suffix text is not allowe
     * This plugin can be changed via `flogger.message_formatter.level.impl`
 * `%{location}`:
     * This emits the log site information for the log event in the
-      form `<class-name>#<method-name>`. Current there are no options for the default level
+      form `<class-name>#<method-name>`. Currently, there are no options for the default level
       formatter.
     * See [DefaultLocationFormatter]({{site.next.DefaultLocationFormatter}}) for more details.
     * This plugin can be changed via `flogger.message_formatter.location.impl`
@@ -106,7 +109,7 @@ The following tokens always emit a value, so prefix or suffix text is not allowe
 Tokens with optional values can have prefix and suffix text provided.
 
 * `%{metadata}`
-    * This emits a sequence of space separated metadata key/value pairs in the
+    * This emits a sequence of space-separated metadata key/value pairs in the
       form `<key-label>=<value>`.
     * Individual keys can be excluded from appearing in the output by
       listing [`MetadataKey`]({{site.MetadataKey}}) fields in
@@ -122,16 +125,16 @@ Tokens with optional values can have prefix and suffix text provided.
 
 ## Metadata Keys
 
-For the `%{key.xxx}` tokens and ignored keys in the `%{metadata}` token, you need to specify
+For the `%{key.xxx}` tokens, and ignored keys in the `%{metadata}` token, you need to specify
 a [`MetadataKey`]({{site.MetadataKey}}) by name. To do this, specify the field of the metadata key
-in the form `<class-name>#<method-name>`. However, there are a couple of important notes about
+in the form `<class-name>#<field-name>`. However, there are a couple of important notes about
 metadata keys to be aware of.
 
-1. To reference a key by name, the key must be a `public static final` field of a public class.
+1. To reference a key by name, the key must be a `public static final` field of a `public` class.
 2. To avoid triggering unwanted class initialization or reentrant logging early in an application's
-   lifetime, metadata keys should be held in a class of their own (possibly a nested class).
+   lifetime, metadata keys should be held in a class of their own (e.g. a nested `Key` class).
 
-An example of a metadata key field suitable for loading by Flogger Next:
+The following is an example of a metadata key field suitable for loading by Flogger Next:
 
 ```java
 package org.something.myapp;
@@ -144,7 +147,7 @@ final class MyApplicationClass {
    *
    * <p>Nested class to avoid static initialization when the key is loaded by the formatter.
    */
-  public static final class Keys {
+  public static final class Key {
     /** Shows the current task ID. */
     public static final MetadataKey<String> TASK_ID = MetadataKey.single("task", String.class);
   }
@@ -154,15 +157,22 @@ final class MyApplicationClass {
 With the above setup, the `TASK_ID` can be referenced via:
 
 ```
-org.something.myapp.MyApplicationClass$Keys#TASK_ID
+org.something.myapp.MyApplicationClass$Key#TASK_ID
 ```
+
+### Custom Metadata Labels
 
 If a custom [`MetadataKey`]({{site.MetadataKey}}) subclass emits multiple values with non-default
-labels, the value can be referenced by adding the custom label name to the end of the key
-identifier.
+labels, the value can be referenced by appending the custom label name to the end of the key
+identifier, separated by a `:`.
+
+For example, a custom GPS metadata key (with the base label `gps`) might emit latitude and
+longitude separately as `gps.lat` and `gps.lng`. In this case the values can be identified for
+custom formatting via:
 
 ```
-org.something.myapp.MyApplicationClass$Keys#TASK_ID:my_custom_label
+org.something.myapp.MyApplicationClass$Key#GPS_COORD:gps.lat
+org.something.myapp.MyApplicationClass$Key#GPS_COORD:gps.lng
 ```
 
 ## Formatter Plugins
@@ -185,29 +195,33 @@ A formatter plugin class must adhere to two basic API contraints:
 Formatter plugins can be specified by one of the following Flogger Next options:
 
 * `flogger.message_formatter.impl`: The overall message formatter class. If this is replaced, none
-  of the other plugins will have any effect.
+  of the other formatter plugins will have any effect by default.
 * `flogger.message_formatter.level.impl`: The log level formatter class.
 * `flogger.message_formatter.location.impl`: The log site location formatter class.
 * `flogger.message_formatter.timestamp.impl`: The log timestamp formatter class.
 
 ## Installation
 
-<!-- @formatter:off -->
-```xml
-<dependency>
-    <groupId>net.goui.flogger.next</groupId>
-    <artifactId>backend-system</artifactId>
-    <version>${flogger-next.version}</version>
-</dependency>
-```
-<!-- @formatter:on -->
+JDK logging backend (replaces the `com.google.flogger:flogger-system-backend` dependency):
 
 <!-- @formatter:off -->
 ```xml
 <dependency>
-    <groupId>net.goui.flogger.next</groupId>
-    <artifactId>backend-log4j</artifactId>
-    <version>${flogger-next.version}</version>
+  <groupId>net.goui.flogger.next</groupId>
+  <artifactId>backend-system</artifactId>
+  <version>${flogger-next.version}</version>
+</dependency>
+```
+<!-- @formatter:on -->
+
+Log4J 2 backend (replaces the `com.google.flogger:flogger-log4j2-backend` dependency):
+
+<!-- @formatter:off -->
+```xml
+<dependency>
+  <groupId>net.goui.flogger.next</groupId>
+  <artifactId>backend-log4j</artifactId>
+  <version>${flogger-next.version}</version>
 </dependency>
 ```
 <!-- @formatter:on -->

@@ -4,16 +4,16 @@ title: "Flogger Next"
 nav_order: 50
 ---
 
+<!-- @formatter:off -->
 # Flogger Next
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## What is Flogger Next?
 
@@ -22,9 +22,10 @@ and provide improved integration with the underlying logging system. If provides
 replacement [`FluentLogger`]({{site.next.FluentLogger}}) implementation with additional features as
 well as new backend implementations and features.
 
-## Efficient log statements with String Template syntax
+## String Template Syntax Integration
 
-Utilize Java's new `StringTemplate` syntax to improve readability of your log statements.
+Utilize Java's new `StringTemplate` syntax to improve readability of your log statements (JDK 21
+and above).
 
 <!-- @formatter:off -->
 ```java
@@ -53,7 +54,7 @@ logger.atFine()."Statistics: \{ lazy(() -> this.collectStatsExpensive()) }".log(
 
 See [String Templates](templates) for more.
 
-## Improved log messages with custom formatter options
+## Custom Log Message Formatting
 
 Replace Flogger's original, fixed, message format with a flexible new formatter.
 
@@ -76,7 +77,7 @@ com.foo.bar.MyClass#myMethod (task@1234) My log message
 
 See [Custom Formating](formatter) for more.
 
-## Reduce class initialization costs by sharing logger backends
+## Reduce Class Initialization Costs
 
 Instead of allocating one logger backend for each Fluent logger instance, share backends between
 classes with the same logging requirements.
@@ -98,4 +99,3 @@ object allocations and class initialization cost.
 > APIs which make up for this.
 
 See [Backend Naming](backend) for more.
-

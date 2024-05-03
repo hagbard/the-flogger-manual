@@ -4,16 +4,16 @@ title: Basic Usage
 nav_order: 20
 ---
 
+<!-- @formatter:off -->
 # Basic Usage
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 For working code examples for basic usage,
 see [BasicExamples.java]({{site.examples}}/BasicExamples.java).

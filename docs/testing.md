@@ -4,16 +4,16 @@ title: Testing Logs
 nav_order: 40
 ---
 
+<!-- @formatter:off -->
 # Testing Logs
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## Testing logs properly is hard
 

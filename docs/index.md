@@ -2,7 +2,16 @@
 layout: home
 ---
 
+<!-- @formatter:off -->
 # The Flogger Manual
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+- TOC
+{:toc}
+<!-- @formatter:on -->
 
 [Flogger](https://github.com/google/flogger) is Google's open-source Java debug logging library.
 

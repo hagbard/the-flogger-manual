@@ -4,16 +4,16 @@ title: Installing Flogger
 nav_order: 10
 ---
 
+<!-- @formatter:off -->
 # Installing Flogger
+{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
+## Table of contents
+{: .no_toc .text-delta }
+
 - TOC
 {:toc}
-</details>
+<!-- @formatter:on -->
 
 ## Maven Dependencies
 
