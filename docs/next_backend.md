@@ -68,23 +68,22 @@ make retrieving a logger's log level as simple as a single read of a `volatile` 
 
 ## How Existing Logging Systems Handle Naming
 
-Since a logger's configuration is typically held directly in the instance, and becomes desirable to
-have many logger instance, since sharing one instance between many classes would prevent you from
-being able to control log levels freely. This is especially important for library code which is
-expected to be used in many environments, and cannot predict how it might need to be configured
-during debugging.
+Since a logger typically holds its own configuration, for maximum flexibility of log level control,
+it becomes desirable to have many logger instances, since sharing a logger between many classes
+would limit the ability to control log levels independently. This is especially important for
+library code which is expected to be used in many environments, and cannot predict how it might need
+to be configured during debugging.
 
 This results in the most common logger configuration being "one logger per class", with the logger
 instance named after the class. Given this scheme, and the ability to create "intermediate" loggers
-named after parent packages, it's possible to provide any combination of logging configuration, from
-simple to complex, since every location in the namespace can have logging configuration associated
-with it.
+named after parent packages, it's possible to provide any combination of logging configuration,
+since every location in the namespace can have logging configuration associated with it.
 
 <img src="{{site.baseurl}}/assets/logger_hierarchy.svg">
 
 While simple, this means that every single class must allocate a new logger instance during class
-initialization, which both adds to the time taken to load the class and incurs hundreds or thousands
-of potentially non-trivially sized allocations.
+initialization, which both adds to the time taken to load each class, and incurs hundreds or
+thousands of potentially non-trivially sized allocations.
 
 And in reality, almost all of these logger instances will end up with effectively identical logging
 configurations almost all the time, since it's only during debugging that the ability to
@@ -98,8 +97,8 @@ Because Flogger was designed to handle different logger naming schemes it does n
 the backend name to the user.
 
 In fact, very deliberately, there is no way to request a [`FluentLogger`]({{site.FluentLogger}})
-instance with a specific name, and it is only possible to ask for "the logger suitable for the
-current class".
+instance with a specific name, and it is only possible to ask for "a logger suitable for the current
+class".
 
 ```java
 import net.goui.flogger.FluentLogger;
@@ -124,16 +123,15 @@ its [`LoggerBackend`]({{site.LoggerBackend}}).
 ### Why is ScopedLoggingContext important?
 
 The [`ScopedLoggingContext`]({{site.ScopedLoggingContext}}) mechanism (see
-also [Advanced Usage](advanced)) is an important Flogger feature to enhance debugging via log
-statements. It permits logging to be "forced" within user defined contexts for arbitrary packages or
-classes. This largely replaces the need for users to edit and reload logging configuration while
-debugging, while providing proper scoping for log level debugging changes (e.g. for a single
-request).
+also [Advanced Usage](advanced)) is an important Flogger feature to enhance debugging. It permits
+logging to be "forced" within user defined contexts for arbitrary packages or classes. This largely
+replaces the need for users to edit and reload logging configuration while debugging, while
+providing proper scoping for log level control (e.g. for a single request).
 
-This class specifies the log level to be modified by using class or package names, and so exposes an
-assumed mapping from class name to logger behaviour. Thus while there is no explicit way for users
-to determine a logger's name, there is a need to have some kind of internal mapping which can
-associate loggers and class names.
+Since [`ScopedLoggingContext`]({{site.ScopedLoggingContext}}) specifies the log level to be modified
+by using class or package names, it exposes an assumed mapping from class name to logger behaviour.
+So while there is no explicit way for users to determine a logger's name, there is a need to have
+some kind of internal mapping which can associate loggers and class names.
 
 ## Flogger Next's Naming Scheme
 
@@ -185,8 +183,7 @@ amount of unhelpful log output and even affect performance.
 
 This is the default strategy if no naming properties are set and matches Google's Fluent Logger
 behaviour. Each [`FluentLogger`]({{site.FluentLogger}}) will be associated with
-a [`LoggerBackend`]({{site.LoggerBackend}})
-with the same name as the logging class.
+a [`LoggerBackend`]({{site.LoggerBackend}}) with the same name as the logging class.
 
 {: .note}
 > For this strategy, logger backend caching is not enabled, since backends are not shared.
@@ -322,7 +319,7 @@ configurable system logger.
 
 Even in this simple example, the number of required system loggers is less than half, and for
 typical code structure where many classes exist per package, it would probably be at least an order
-of magnitude reduction.
+of magnitude less.
 
 However, for modern server based applications, this reduction in fine-grained configurability is not
 expected to be an issue, because in many cases it would be inefficient or impractical to try to
